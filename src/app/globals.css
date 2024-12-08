@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Root Variables */
+:root {
+  /* --foreground: #FFFFE4; Dark background */
+  /* --background: 0 0% 98%; White text */
+}
+
+/* Base Styles */
+body {
+  @apply bg-[#ffffff] tracking-wide;
+  font-family: "Inter", sans-serif; /* Add your preferred font */
+  line-height: 1.5;
+}
+
+/* my reusable styles */
+.border-main {
+  @apply border border-gray-300;
+}
+
+input,
+textarea,
+select {
+  @apply border-main rounded bg-transparent focus:outline-none focus:border-sky-500 px-2 py-1;
+}
+
+.btn-primary {
+  @apply bg-sky-600 hover:bg-sky-700 px-4 py-2 rounded text-white tracking-wider cursor-pointer;
+}
+.btn-secondary {
+  @apply bg-sky-700 hover:bg-sky-600 px-4 py-2 rounded text-white tracking-wider cursor-pointer;
+}
+.fjiC {
+  @apply flex justify-center items-center
+}
+/* 
+colors from lucide react
+#c45050
+#dc5a5a
+#dc5a5a
+#d73a49 
+*/
