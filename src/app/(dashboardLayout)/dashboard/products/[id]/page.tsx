@@ -1,6 +1,7 @@
 import SingleProductMainPage from "@/my-components/products/single-product/SingleProductMainPage";
 
-const SingleProductPage = ({ params }: { params: { id: string } }) => {
+const SingleProductPage = async (props: { params: Promise<{ id: string }> }) => {
+  const params = await props.params;
   return (
     <div className="p-8">
       <SingleProductMainPage id={params?.id} />
