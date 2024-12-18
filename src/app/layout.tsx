@@ -22,21 +22,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <Providers>
-      <html lang="en">
-        <body className={poppins.className}>
-          <Toaster />
-          {children}
-          {/* <ThemeProvider
+    <html lang="en">
+      <body className={poppins.className}>
+        <Toaster />
+        <Providers>
+          <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
             {children}
-          </ThemeProvider> */}
-        </body>
-      </html>
-    </Providers>
+          </ThemeProvider>
+        </Providers>
+      </body>
+    </html>
   );
 }
