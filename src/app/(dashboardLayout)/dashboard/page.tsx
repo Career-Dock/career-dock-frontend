@@ -1,12 +1,7 @@
-// "use client"
-
-// import { useCurrentToken } from "@/redux/features/auth/authSlice"
-
-const DashboardPage = () => {
-    // const token = useCurrentToken(undefined);
+export default function RootDashboardPage() {
   return (
-    <div>DashboardPage</div>
-  )
+    <div>
+      <h1>This is root dashboard page</h1>
+    </div>
+  );
 }
-
-export default DashboardPage
