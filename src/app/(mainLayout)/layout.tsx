@@ -1,3 +1,4 @@
+import Header from '@/components/common/header';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -12,7 +13,7 @@ export default function HomeLayout({
 }) {
   return (
     <div>
-      <div>header</div>
+      <Header />
       {children}
       <div>footer</div>
     </div>
