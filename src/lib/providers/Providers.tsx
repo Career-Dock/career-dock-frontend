@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { ChildrenProps } from "@/types";
-import { Provider } from "react-redux";
-import { store } from "@/redux/store";
+import { ChildrenProps } from '@/types';
+import { Provider } from 'react-redux';
+import { store } from '@/redux/store';
 import {
   ClerkProvider,
   SignInButton,
   SignedIn,
   SignedOut,
   UserButton,
-} from "@clerk/nextjs";
+} from '@clerk/nextjs';
 
 const Providers = ({ children }: ChildrenProps) => {
   return (

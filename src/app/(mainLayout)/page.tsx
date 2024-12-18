@@ -24,14 +24,14 @@ export default async function Home() {
         Welcome to Cateer Dock
       </h1>
 
-      <div>
+      {/* <div>
         <SignedOut>
           <SignInButton />
         </SignedOut>
         <SignedIn>
           <UserButton />
         </SignedIn>
-      </div>
+      </div> */}
     </main>
   );
 }
