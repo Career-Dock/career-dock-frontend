@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 export default function FeatureShowcase() {
   return (
-    <div className=" bg-[#F9F6F3]">
+    <div className=" bg-[#F9F6F3] pb-24">
       <MaxWidthWrapper className=" py-4 max-w-7xl md:px-0">
         {/* Browser Window Frame */}
 
