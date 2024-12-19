@@ -45,10 +45,7 @@ export default function Header() {
             <Link href="/login">Log in</Link>
           </Button>
         </div>
-        <Button
-          asChild
-          className="hidden md:inline-flex bg-[#1C1C1C] hover:bg-[#2C2C2C]"
-        >
+        <Button asChild className="hidden md:inline-flex">
           <Link href="/start">Start</Link>
         </Button>
         <Sheet open={isOpen} onOpenChange={setIsOpen}>

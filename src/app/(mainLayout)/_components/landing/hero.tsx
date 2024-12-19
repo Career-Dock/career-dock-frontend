@@ -12,22 +12,23 @@ export default function Hero() {
         </div>
 
         <h1 className="max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
-          Email for modern software companies
+          Turn Chaos into Career Success.
         </h1>
 
-        <div className="mt-6 max-w-2xl space-y-2 text-gray-600">
+        <div className="mt-6 max-w-3xl space-y-2 text-gray-600">
           <p className="text-lg sm:text-xl">
-            Send your product, marketing, and transactional email with Loops.
+            Stay organized, track every application, and land your dream job
+            with ease.
           </p>
           <p className="text-lg sm:text-xl">
-            One simple interface, for all your email.
+            Start your journey to career success today.
           </p>
         </div>
 
         <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row">
           <Button
             size="lg"
-            className="bg-[#1C1C1C] hover:bg-[#2C2C2C] text-white rounded-full px-8 h-12 text-base shadow-lg"
+            className=" text-white rounded-full px-8 h-12 text-base shadow-lg"
           >
             Get started
           </Button>
