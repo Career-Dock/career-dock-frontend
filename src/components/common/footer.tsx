@@ -1,6 +1,6 @@
-import Link from "next/link";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
+import Link from 'next/link';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 import {
   Twitter,
   Linkedin,
@@ -8,42 +8,41 @@ import {
   Youtube,
   Phone,
   Mail,
-} from "lucide-react";
+} from 'lucide-react';
 
 export default function Footer() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-16 bg-[#0d1412]">
+      <div className="container mx-auto px-4 py-16 bg-blue-800">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
           <h1 className="text-4xl md:text-6xl font-medium text-white mb-8 md:mb-0 max-w-2xl">
-            Discover the full scale of{" "}
+            Discover the full scale of{' '}
             <span className="relative">
               Career Dock
               <span className="absolute bottom-2 left-0 w-full h-1 bg-primary"></span>
-            </span>{" "}
+            </span>{' '}
             capabilities
           </h1>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button variant="outline" className="text-[#1A2421] bg-white">
+            <Button variant="outline" className="text-gray-900 bg-white">
               Get a Demo
             </Button>
-            <Button className="bg-primary text-[#1A2421]">
-              Start for Free
-            </Button>
+            <Button className="bg-primary text-white">Start for Free</Button>
           </div>
         </div>
       </div>
 
       {/* Footer */}
-      <footer className="container mx-auto px-4 py-16 mt-auto  bg-[#1A2421]">
+      <footer className="container mx-auto px-4 py-16 mt-auto  bg-blue-950">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           {/* Logo and Contact */}
           <div className="md:col-span-3 space-y-6">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-primary rounded"></div>
-              <span className="text-white text-xl">Career Dock</span>
-            </div>
+            <Link href="/" className="flex items-center gap-2">
+              <div className="h-6 w-6 rounded-full bg-primary" />
+              <span className="text-xl font-semibold text-white">Career</span>
+              <span className="text-xl font-semibold text-primary">Dock</span>
+            </Link>
             <div className="space-y-2">
               <Link
                 href="mailto:hello@careerdock.com"
@@ -67,11 +66,11 @@ export default function Footer() {
             <h3 className="text-white font-medium mb-4">Solution</h3>
             <ul className="space-y-2">
               {[
-                "Why Career Dock",
-                "Features",
-                "OpenAI",
-                "Technology",
-                "Security",
+                'Why Career Dock',
+                'Features',
+                'OpenAI',
+                'Technology',
+                'Security',
               ].map((item) => (
                 <li key={item}>
                   <Link href="#" className="text-gray-400 hover:text-white">
@@ -86,7 +85,7 @@ export default function Footer() {
           <div className="md:col-span-3">
             <h3 className="text-white font-medium mb-4">Customers</h3>
             <ul className="space-y-2">
-              {["Procurement", "Sales", "Legal", "Medium", "Enterprise"].map(
+              {['Procurement', 'Sales', 'Legal', 'Medium', 'Enterprise'].map(
                 (item) => (
                   <li key={item}>
                     <Link href="#" className="text-gray-400 hover:text-white">
@@ -102,7 +101,7 @@ export default function Footer() {
           <div className="md:col-span-3">
             <h3 className="text-white font-medium mb-4">Resources</h3>
             <ul className="space-y-2">
-              {["Pricing", "Contact Sales", "Changelog *", "Blog"].map(
+              {['Pricing', 'Contact Sales', 'Changelog *', 'Blog'].map(
                 (item) => (
                   <li key={item}>
                     <Link href="#" className="text-gray-400 hover:text-white">
