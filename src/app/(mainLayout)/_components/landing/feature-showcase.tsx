@@ -1,10 +1,60 @@
-'use client';
+"use client";
 
-import MaxWidthWrapper from '@/components/common/max-width-wrapper';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import Image from 'next/image';
+import MaxWidthWrapper from "@/components/common/max-width-wrapper";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import Image from "next/image";
 
 export default function FeatureShowcase() {
+  const tabsData = [
+    {
+      value: "Organize",
+      content: (
+        <Image
+          src="/dashboard-examples-blog.png"
+          alt="Organize your documents"
+          width={1400}
+          height={600}
+          className="rounded-lg border shadow-sm"
+        />
+      ),
+    },
+    {
+      value: "Create",
+      content: (
+        <Image
+          src="/dashboard-examples-blog.png"
+          alt="Organize your documents"
+          width={1400}
+          height={600}
+          className="rounded-lg border shadow-sm"
+        />
+      ),
+    },
+    {
+      value: "Style",
+      content: (
+        <Image
+          src="/dashboard-examples-blog.png"
+          alt="Organize your documents"
+          width={1400}
+          height={600}
+          className="rounded-lg border shadow-sm"
+        />
+      ),
+    },
+    {
+      value: "Share",
+      content: (
+        <Image
+          src="/dashboard-examples-blog.png"
+          alt="Organize your documents"
+          width={1400}
+          height={600}
+          className="rounded-lg border shadow-sm"
+        />
+      ),
+    },
+  ];
   return (
     <div className=" bg-[#F9F6F3] pb-24">
       <MaxWidthWrapper className=" py-4 max-w-7xl md:px-0">
@@ -14,72 +64,26 @@ export default function FeatureShowcase() {
         <Tabs defaultValue="organize" className="p-4">
           <div className="flex justify-center">
             <TabsList className="inline-flex h-10 items-center justify-center rounded-full bg-[#F6F6F6] p-1">
-              <TabsTrigger
-                value="organize"
-                className="rounded-full px-8 data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-sm"
-              >
-                Organize
-              </TabsTrigger>
-              <TabsTrigger
-                value="create"
-                className="rounded-full px-8 data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-sm"
-              >
-                Create
-              </TabsTrigger>
-              <TabsTrigger
-                value="style"
-                className="rounded-full px-8 data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-sm"
-              >
-                Style
-              </TabsTrigger>
-              <TabsTrigger
-                value="share"
-                className="rounded-full px-8 data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-sm"
-              >
-                Share
-              </TabsTrigger>
+              {["Organize", "Create", "Style", "Share"].map((tab, index) => (
+                <TabsTrigger
+                  key={index}
+                  value={tab.toLowerCase()}
+                  className="rounded-full px-8 data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-sm"
+                >
+                  {tab}
+                </TabsTrigger>
+              ))}
             </TabsList>
           </div>
-
-          <TabsContent value="organize" className="mt-6">
-            <Image
-              src="/dashboard-examples-blog.png"
-              alt="Organize your documents"
-              width={1400}
-              height={600}
-              className="rounded-lg border shadow-sm"
-            />
-          </TabsContent>
-
-          <TabsContent value="create" className="mt-6">
-            <Image
-              src="/dashboard-examples-blog.png"
-              alt="Organize your documents"
-              width={1400}
-              height={600}
-              className="rounded-lg border shadow-sm"
-            />
-          </TabsContent>
-
-          <TabsContent value="style" className="mt-6">
-            <Image
-              src="/dashboard-examples-blog.png"
-              alt="Organize your documents"
-              width={1400}
-              height={600}
-              className="rounded-lg border shadow-sm"
-            />
-          </TabsContent>
-
-          <TabsContent value="share" className="mt-6">
-            <Image
-              src="/dashboard-examples-blog.png"
-              alt="Organize your documents"
-              width={1400}
-              height={600}
-              className="rounded-lg border shadow-sm"
-            />
-          </TabsContent>
+          {tabsData.map((td, index) => (
+            <TabsContent
+              key={index}
+              value={td?.value?.toLowerCase()}
+              className="mt-6"
+            >
+              {td.content}
+            </TabsContent>
+          ))}
         </Tabs>
       </MaxWidthWrapper>
     </div>
