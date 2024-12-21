@@ -4,35 +4,35 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "@/components/ui/carousel";
-import MaxWidthWrapper from "@/components/common/max-width-wrapper";
-import { Quote } from "lucide-react";
-import Image from "next/image";
+} from '@/components/ui/carousel';
+import MaxWidthWrapper from '@/components/common/max-width-wrapper';
+import { Quote } from 'lucide-react';
+import Image from 'next/image';
 
 const TestimonialCarousel = () => {
   const testimonials = [
     {
       text: "This job application tracker is amazing! It's easy to use, keeps everything organized, and the follow-up reminders are super helpful. Uploading documents and adding notes make the job search process so much smoother. Highly recommended!",
-      name: "M. T. H. Titumir",
-      company: "Standard Insights",
-      designation: "Full Stack Developer",
-      image: "https://ca.slack-edge.com/T1HBNSSKS-U07EN8GE5FV-c870771c1b9c-512",
+      name: 'M. T. H. Titumir',
+      company: 'Standard Insights',
+      designation: 'Full Stack Developer',
+      image: 'https://ca.slack-edge.com/T1HBNSSKS-U07EN8GE5FV-c870771c1b9c-512',
     },
     {
       text: "This job application tracker is amazing! It's easy to use, keeps everything organized, and the follow-up reminders are super helpful. Uploading documents and adding notes make the job search process so much smoother. Highly recommended!",
-      name: "Chowdhury Tafsir Ahmed Siddiki",
-      company: "Standard Insights",
-      image: "https://ca.slack-edge.com/T1HBNSSKS-U080LDJ7LS3-g159e0bd3616-512",
+      name: 'Chowdhury Tafsir Ahmed Siddiki',
+      company: 'Standard Insights',
+      image: 'https://ca.slack-edge.com/T1HBNSSKS-U080LDJ7LS3-g159e0bd3616-512',
     },
     {
       text: "This job application tracker is amazing! It's easy to use, keeps everything organized, and the follow-up reminders are super helpful. Uploading documents and adding notes make the job search process so much smoother. Highly recommended!",
-      name: "Mohammad Tanvir Chowdhury",
-      company: "Standard Insights",
-      image: "https://ca.slack-edge.com/T1HBNSSKS-U07S3GW2GKU-7a3f2fbf1508-512",
+      name: 'Mohammad Tanvir Chowdhury',
+      company: 'Standard Insights',
+      image: 'https://ca.slack-edge.com/T1HBNSSKS-U07S3GW2GKU-7a3f2fbf1508-512',
     },
   ];
   return (
-    <div className="py-24">
+    <div className="py-24 bg-[#f6f6f6]">
       <MaxWidthWrapper>
         <Carousel className="w-full">
           <CarouselContent>
@@ -52,7 +52,7 @@ const TestimonialCarousel = () => {
                       <div className="relative w-12 h-12 rounded-full">
                         <Image
                           src={test.image}
-                          alt={test.name + "profile image"}
+                          alt={test.name + 'profile image'}
                           width={48}
                           height={48}
                           className="object-contain rounded-full"
@@ -80,16 +80,16 @@ const TestimonialCarousel = () => {
 const StatsRow = () => {
   const rows = [
     {
-      data: "2021",
-      text: "Created Founded",
+      data: '2021',
+      text: 'Created Founded',
     },
     {
-      data: "50k+",
-      text: "Active Users",
+      data: '50k+',
+      text: 'Active Users',
     },
     {
-      data: "1k+",
-      text: "Company Partners",
+      data: '1k+',
+      text: 'Company Partners',
     },
   ];
   return (

@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@/components/theme-provider';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -12,9 +13,14 @@ export default function HomeLayout({
 }) {
   return (
     <div>
-      <div>header</div>
-      <div>sidebar</div>
-      <div>{children}</div>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        {children}
+      </ThemeProvider>
     </div>
   );
 }

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { ChevronRight, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { ModeToggle } from '../toggle-dark';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,7 +38,6 @@ export default function Header() {
         </Link>
       </nav>
       <div className="flex items-center gap-4">
-        <ModeToggle />
         <div className="hidden md:block">
           <Button variant="outline" asChild>
             <Link href="/login">Log in</Link>
