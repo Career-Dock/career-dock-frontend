@@ -20,7 +20,7 @@ export default function Footer() {
             Discover the full scale of{" "}
             <span className="relative">
               Career Dock
-              <span className="absolute bottom-2 left-0 w-full h-1 bg-[#DEFF0A]"></span>
+              <span className="absolute bottom-2 left-0 w-full h-1 bg-primary"></span>
             </span>{" "}
             capabilities
           </h1>
@@ -31,7 +31,7 @@ export default function Footer() {
             >
               Get a Demo
             </Button>
-            <Button className="bg-[#DEFF0A] text-[#1A2421] hover:bg-[#DEFF0A]/90">
+            <Button className="bg-primary text-[#1A2421] hover:bg-primary/90">
               Start for Free
             </Button>
           </div>
@@ -44,7 +44,7 @@ export default function Footer() {
           {/* Logo and Contact */}
           <div className="md:col-span-3 space-y-6">
             <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-[#DEFF0A] rounded"></div>
+              <div className="w-8 h-8 bg-primary rounded"></div>
               <span className="text-white text-xl">Career Dock</span>
             </div>
             <div className="space-y-2">
