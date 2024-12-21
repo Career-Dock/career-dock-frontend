@@ -17,6 +17,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import MaxWidthWrapper from "@/components/common/max-width-wrapper";
 
 export default function FAQSection() {
   const faqs = [
@@ -83,40 +84,35 @@ export default function FAQSection() {
   ];
 
   return (
-    <section className="w-full px-4 py-12 md:py-24 lg:py-32">
-      <div className="container px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center">
-          <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-            Frequently asked questions
-          </h2>
-          <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-            Stuck on something? We're here to help with all your questions and
-            answers in one place.
-          </p>
-        </div>
-        <div className="mx-auto grid max-w-5xl gap-8 pt-12 md:grid-cols-2 md:gap-12">
-          {faqs.map((faq, index) => (
-            <div key={index} className="flex gap-4">
-              <div className="flex-shrink-0 mt-1">{faq.icon}</div>
-              <div className="space-y-2">
-                <Accordion type="single" collapsible>
-                  <AccordionItem
-                    value={`item-${index}`}
-                    className="border-none"
-                  >
-                    <AccordionTrigger className="flex flex-row gap-2 text-base font-semibold hover:no-underline p-0">
-                      {faq.question}
-                    </AccordionTrigger>
-                    <AccordionContent className="text-gray-500 dark:text-gray-400">
-                      {faq.answer}
-                    </AccordionContent>
-                  </AccordionItem>
-                </Accordion>
+    <MaxWidthWrapper>
+      <section className="w-full px-4 py-12 md:py-24 w-full">
+        <div className="px-4 md:px-6">
+          <div className="">
+            <h2 className="text-5xl font-bold tracking-wide mb-2">
+              Frequently asked questions
+            </h2>
+            <p className="text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+              Stuck on something? We're here to help with all your questions and
+              answers in one place.
+            </p>
+          </div>
+          <div className="mx-auto grid gap-6 mt-12 md:grid-cols-2 md:gap-8">
+            {faqs.map((faq, index) => (
+              <div key={index} className="flex gap-4">
+                <div className="flex-shrink-0 mt-1 p-2 bg-gray-100 h-10 w-10 rounded">{faq.icon}</div>
+                <div className="space-y-2">
+                  <p className="flex flex-row gap-2 text-base font-semibold hover:no-underline p-0">
+                    {faq.question}
+                  </p>
+                  <p className="text-gray-500 dark:text-gray-400">
+                    {faq.answer}
+                  </p>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </MaxWidthWrapper>
   );
 }
