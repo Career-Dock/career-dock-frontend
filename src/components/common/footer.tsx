@@ -25,13 +25,10 @@ export default function Footer() {
             capabilities
           </h1>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Button
-              variant="outline"
-              className="text-[#1A2421] bg-white hover:bg-white/90"
-            >
+            <Button variant="outline" className="text-[#1A2421] bg-white">
               Get a Demo
             </Button>
-            <Button className="bg-primary text-[#1A2421] hover:bg-primary/90">
+            <Button className="bg-primary text-[#1A2421]">
               Start for Free
             </Button>
           </div>
