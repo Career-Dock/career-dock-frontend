@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { ModeToggle } from '@/components/toggle-dark';
 
 export function PrimaryTopNav() {
   return (
@@ -29,6 +30,7 @@ export function PrimaryTopNav() {
           <Button variant="ghost" size="icon">
             <Bell className="h-5 w-5" />
           </Button>
+          <ModeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
