@@ -32,7 +32,7 @@ const TestimonialCarousel = () => {
     },
   ];
   return (
-    <div className="py-24">
+    <div className="py-24 pb-0 bg-[#F9F6F3]">
       <MaxWidthWrapper>
         <Carousel className="w-full">
           <CarouselContent>
@@ -93,7 +93,7 @@ const StatsRow = () => {
     },
   ];
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 mt-8 mb-4">
+    <div className="mt-8 ">
       <MaxWidthWrapper>
         <div className="flex justify-evenly py-14">
           {rows.map((row, index) => (
