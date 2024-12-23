@@ -1,10 +1,17 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { ChevronRight, Menu } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { useState } from "react";
+import Link from "next/link";
+import { ChevronRight, Menu } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,13 +46,20 @@ export default function Header() {
       </nav>
       <div className="flex items-center gap-4">
         <div className="hidden md:block">
-          <Button variant="outline" asChild>
-            <Link href="/login">Log in</Link>
-          </Button>
+          {/* <ClerkProvider> */}
+          <SignedOut>
+            {/* <Button variant="outline"> */}
+            <SignInButton />
+            {/* </Button> */}
+          </SignedOut>
+          {/* </ClerkProvider> */}
         </div>
         <Button asChild className="hidden md:inline-flex">
           <Link href="/start">Start</Link>
         </Button>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
           <SheetTrigger asChild>
             <Button variant="ghost" size="icon" className="md:hidden">
