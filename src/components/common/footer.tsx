@@ -8,22 +8,22 @@ import {
   Youtube,
   Phone,
   Mail,
-} from "lucide-react";
-import MaxWidthWrapper from "./max-width-wrapper";
+} from 'lucide-react';
+import MaxWidthWrapper from './max-width-wrapper';
 
 export default function Footer() {
   return (
     <div className="">
       {/* Hero Section */}
-      <div className="px-4 py-16 bg-[#0d1412]">
+      <div className="px-4 py-16 bg-gray-900">
         <MaxWidthWrapper>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
             <h1 className="text-4xl md:text-5xl font-medium text-white mb-8 md:mb-0 max-w-2xl">
-              Discover the full scale of{" "}
+              Discover the full scale of{' '}
               <span className="relative">
                 Career Dock
                 <span className="absolute bottom-2 left-0 w-full h-1 bg-primary"></span>
-              </span>{" "}
+              </span>{' '}
               capabilities
             </h1>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -39,7 +39,7 @@ export default function Footer() {
       </div>
 
       {/* Footer */}
-      <footer className="px-4 py-16 bg-[#1A2421]">
+      <footer className="px-4 py-16 bg-gray-950">
         <MaxWidthWrapper>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
             {/* Logo and Contact */}
@@ -71,11 +71,11 @@ export default function Footer() {
               <h3 className="text-white font-medium mb-4">Solution</h3>
               <ul className="space-y-2">
                 {[
-                  "Why Career Dock",
-                  "Features",
-                  "OpenAI",
-                  "Technology",
-                  "Security",
+                  'Why Career Dock',
+                  'Features',
+                  'OpenAI',
+                  'Technology',
+                  'Security',
                 ].map((item) => (
                   <li key={item}>
                     <Link href="#" className="text-gray-400 hover:text-white">
@@ -90,7 +90,7 @@ export default function Footer() {
             <div className="md:col-span-3">
               <h3 className="text-white font-medium mb-4">Customers</h3>
               <ul className="space-y-2">
-                {["Procurement", "Sales", "Legal", "Medium", "Enterprise"].map(
+                {['Procurement', 'Sales', 'Legal', 'Medium', 'Enterprise'].map(
                   (item) => (
                     <li key={item}>
                       <Link href="#" className="text-gray-400 hover:text-white">
@@ -106,7 +106,7 @@ export default function Footer() {
             <div className="md:col-span-3">
               <h3 className="text-white font-medium mb-4">Resources</h3>
               <ul className="space-y-2">
-                {["Pricing", "Contact Sales", "Changelog *", "Blog"].map(
+                {['Pricing', 'Contact Sales', 'Changelog *', 'Blog'].map(
                   (item) => (
                     <li key={item}>
                       <Link href="#" className="text-gray-400 hover:text-white">
@@ -122,7 +122,8 @@ export default function Footer() {
           {/* Bottom Footer */}
           <div className="flex flex-col md:flex-row justify-between items-center mt-16 pt-8 border-t border-gray-800">
             <p className="text-gray-400 mb-4 md:mb-0">
-              © Copyright {new Date().getFullYear()} <span className="text-primary">Career Dock</span>. All rights
+              © Copyright {new Date().getFullYear()}{' '}
+              <span className="text-primary">Career Dock</span>. All rights
               reserved.
             </p>
             <div className="flex gap-6">

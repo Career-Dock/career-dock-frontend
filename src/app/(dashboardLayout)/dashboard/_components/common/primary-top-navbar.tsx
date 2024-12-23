@@ -4,12 +4,14 @@ import { Bell, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
-  ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export function PrimaryTopNav() {
   return (
@@ -27,6 +29,7 @@ export function PrimaryTopNav() {
           <Button variant="ghost" size="icon">
             <Bell className="h-5 w-5" />
           </Button>
+          <ModeToggle />
           <SignedOut>
             <SignInButton />
           </SignedOut>
