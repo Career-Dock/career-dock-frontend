@@ -1,4 +1,3 @@
-import { TUserProfile } from "@/types";
 import { baseApi } from "../../api/baseApi";
 
 const userApi = baseApi.injectEndpoints({
@@ -9,7 +8,7 @@ const userApi = baseApi.injectEndpoints({
         method: "POST",
         body: userInfo,
       }),
-      invalidatesTags: ["user"]
+      invalidatesTags: ["user"],
     }),
     getAllUser: builder.query({
       query: (params) => ({
@@ -17,7 +16,7 @@ const userApi = baseApi.injectEndpoints({
         method: "GET",
         params,
       }),
-      providesTags: ["user"]
+      providesTags: ["user"],
     }),
     getAllDonor: builder.query({
       query: (params) => ({
@@ -25,47 +24,74 @@ const userApi = baseApi.injectEndpoints({
         method: "GET",
         params,
       }),
-      providesTags: ["user"]
+      providesTags: ["user"],
     }),
     getMe: builder.query({
       query: () => ({
         url: "/user/me",
-        method: "GET"
+        method: "GET",
       }),
-      providesTags: ["user"]
+      providesTags: ["user"],
     }),
     updateUser: builder.mutation({
-      query: ({id, updatedUserData}: {id: string, updatedUserData: Partial<TUserProfile>}) => ({
+      query: ({
+        id,
+        updatedUserData,
+      }: {
+        id: string;
+        updatedUserData: Partial<any>;
+      }) => ({
         url: `/user/${id}`,
         method: "PATCH",
         body: updatedUserData,
       }),
-      invalidatesTags: ["user"]
+      invalidatesTags: ["user"],
     }),
     updateUserRole: builder.mutation({
-      query: ({id, updatedUserRoleData}: {id: string, updatedUserRoleData: {role: string}}) => ({
+      query: ({
+        id,
+        updatedUserRoleData,
+      }: {
+        id: string;
+        updatedUserRoleData: { role: string };
+      }) => ({
         url: `/user/${id}/role`,
         method: "PATCH",
         body: updatedUserRoleData,
       }),
-      invalidatesTags: ["user"]
+      invalidatesTags: ["user"],
     }),
     updateUserStatus: builder.mutation({
-      query: ({id, updatedUserStatusData}: {id: string, updatedUserStatusData: {isBanned: boolean}}) => ({
+      query: ({
+        id,
+        updatedUserStatusData,
+      }: {
+        id: string;
+        updatedUserStatusData: { isBanned: boolean };
+      }) => ({
         url: `/user/${id}/status`,
         method: "PATCH",
         body: updatedUserStatusData,
       }),
-      invalidatesTags: ["user"]
+      invalidatesTags: ["user"],
     }),
     deleteUser: builder.mutation({
-      query: ({id}: {id: string}) => ({
+      query: ({ id }: { id: string }) => ({
         url: `/user/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["user"]
+      invalidatesTags: ["user"],
     }),
   }),
 });
 
-export const { useCreateUserMutation, useGetAllUserQuery, useGetAllDonorQuery, useGetMeQuery, useUpdateUserMutation, useUpdateUserRoleMutation, useUpdateUserStatusMutation, useDeleteUserMutation } = userApi;
+export const {
+  useCreateUserMutation,
+  useGetAllUserQuery,
+  useGetAllDonorQuery,
+  useGetMeQuery,
+  useUpdateUserMutation,
+  useUpdateUserRoleMutation,
+  useUpdateUserStatusMutation,
+  useDeleteUserMutation,
+} = userApi;
