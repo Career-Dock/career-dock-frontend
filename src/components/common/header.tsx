@@ -46,13 +46,9 @@ export default function Header() {
       </nav>
       <div className="flex items-center gap-4">
         <div className="hidden md:block">
-          {/* <ClerkProvider> */}
           <SignedOut>
-            {/* <Button variant="outline"> */}
             <SignInButton />
-            {/* </Button> */}
           </SignedOut>
-          {/* </ClerkProvider> */}
         </div>
         <Button asChild className="hidden md:inline-flex">
           <Link href="/start">Start</Link>
