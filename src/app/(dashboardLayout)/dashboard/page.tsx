@@ -1,7 +1,18 @@
-export default function RootDashboardPage() {
-  return (
-    <div>
-      <h1>This is root dashboard page</h1>
-    </div>
-  );
+import { redirect } from 'next/navigation';
+
+export default async function Dashboard() {
+  //const session = await auth();
+
+  const session = {
+    user: {
+      name: 'John Doe',
+      email: 'john@gmail.com',
+    },
+  };
+
+  if (!session?.user) {
+    return redirect('/');
+  } else {
+    redirect('/dashboard/overview');
+  }
 }
