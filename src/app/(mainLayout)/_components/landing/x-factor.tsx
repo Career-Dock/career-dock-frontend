@@ -38,7 +38,7 @@ const factors: FactorCard[] = [
 
 export default function XFactor() {
   return (
-    <section className=" py-20 md:py-20 px-4 md:px-10 bg-[#F6F6F6]">
+    <section className=" py-20 md:py-20 px-4 md:px-10 bg-[#eaf8ed]">
       <MaxWidthWrapper>
         <h1 className="text-primary text-4xl md:text-5xl font-bold text-center mb-12 sticky top-4 z-10 pb-8">
           X-Factors Of Career Dock
@@ -48,7 +48,7 @@ export default function XFactor() {
           {factors.map((factor, pIndex) => (
             <Card
               key={pIndex}
-              className="px-8 pt-8 pb-0 md:pt-12 md:px-10 lg:pt-12 lg:px-12 sticky bg-gradient-to-r from-[#1E3A8A] to-[#2563EB] h-[400px]"
+              className="px-8 pt-8 pb-0 md:pt-12 md:px-10 lg:pt-12 lg:px-12 sticky bg-gradient-to-r from-[#1b702f] to-[#1f8237] h-[400px] border-[#eaf8ed]"
               style={{
                 top: `calc(140px + ${pIndex * 40}px)`,
               }}

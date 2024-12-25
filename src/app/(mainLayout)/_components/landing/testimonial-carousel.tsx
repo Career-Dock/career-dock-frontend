@@ -32,7 +32,7 @@ const TestimonialCarousel = () => {
     },
   ];
   return (
-    <div className="py-24 pb-0 bg-[#F9F6F3]">
+    <div className="py-24 pb-0 bg-[#eaf8ed]">
       <MaxWidthWrapper>
         <Carousel className="w-full">
           <CarouselContent>

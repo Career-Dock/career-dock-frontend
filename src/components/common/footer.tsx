@@ -15,7 +15,7 @@ export default function Footer() {
   return (
     <div className="">
       {/* Hero Section */}
-      <div className="px-4 py-16 bg-gray-900">
+      <div className="px-4 py-16 bg-[#092510]">
         <MaxWidthWrapper>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
             <h1 className="text-4xl md:text-5xl font-medium text-white mb-8 md:mb-0 max-w-2xl">
@@ -39,7 +39,7 @@ export default function Footer() {
       </div>
 
       {/* Footer */}
-      <footer className="px-4 py-16 bg-gray-950">
+      <footer className="px-4 py-16 bg-[#041308]">
         <MaxWidthWrapper>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
             {/* Logo and Contact */}

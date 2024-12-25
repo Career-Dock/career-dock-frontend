@@ -7,11 +7,11 @@ export default function Hero() {
   return (
     <MaxWidthWrapper>
       <div className="flex min-h-[70vh] flex-col items-center justify-center px-4 text-center">
-        <div className="inline-flex items-center rounded-full border bg-white px-3 py-1 text-sm text-gray-600 shadow-sm mb-8">
+        <div className="inline-flex items-center rounded-full border bg-[#fafbfc] px-3 py-1 text-sm text-gray-600 shadow-sm mb-8">
           Backed by Y Combinator
         </div>
 
-        <h1 className="max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
+        <h1 className="max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl text-[#092510]">
           Turn Chaos into Career Success.
         </h1>
 

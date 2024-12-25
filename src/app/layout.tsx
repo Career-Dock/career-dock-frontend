@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className=" bg-[#fafbfc]">
       <body className={poppins.className}>
         <NextTopLoader showSpinner={false} />
         <Toaster />
