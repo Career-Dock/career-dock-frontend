@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className=" bg-[#fafbfc]">
       <body className={poppins.className}>
-        <NextTopLoader showSpinner={false} />
+        <NextTopLoader showSpinner={false} color="#2dba4e" />
         <Toaster />
         <Providers>{children}</Providers>
       </body>
