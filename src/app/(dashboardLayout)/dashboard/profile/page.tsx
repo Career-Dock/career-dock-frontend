@@ -1,14 +1,7 @@
-import { SearchParams } from 'nuqs/server';
-import ProfileViewPage from './_components/profile-view-page';
-
-type pageProps = {
-  searchParams: Promise<SearchParams>;
-};
-
 export const metadata = {
-  title: 'Dashboard : Profile'
+  title: 'Dashboard : Profile',
 };
 
-export default async function Page({ searchParams }: pageProps) {
-  return <ProfileViewPage />;
+export default async function Page() {
+  return <div>This is a profile page</div>;
 }
