@@ -5,57 +5,57 @@ import {
   TrendingUp,
   Users,
   Sparkles,
-} from "lucide-react";
-import { ReactNode } from "react";
+} from 'lucide-react';
+import { ReactNode } from 'react';
 
 export default function FeatureGrid() {
   const features = [
     {
-      title: "We Are The Only Ones You Need",
+      title: 'We Are The Only Ones You Need',
       description:
-        "Morem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nunc Vulputate Libero Et Velit Interdum, Ac Aliquet Odio Mattis. Class Aptent",
+        'Morem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nunc Vulputate Libero Et Velit Interdum, Ac Aliquet Odio Mattis. Class Aptent',
       icon: Star,
-      className: "left-0 top-0",
+      className: 'left-0 top-0',
     },
     {
-      title: "Passion Into Every Line",
+      title: 'Passion Into Every Line',
       description:
-        "Morem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nunc Vulputate Libero Et Velit Interdum, Ac Aliquet Odio Mattis. Class Aptent",
+        'Morem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nunc Vulputate Libero Et Velit Interdum, Ac Aliquet Odio Mattis. Class Aptent',
       icon: Sparkles,
-      className: "left-0 top-[350px]",
+      className: 'left-0 top-[350px]',
     },
     {
-      title: "We Only Target Outcomes",
+      title: 'We Only Target Outcomes',
       description:
-        "Morem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nunc Vulputate Libero Et Velit Interdum, Ac Aliquet Odio Mattis. Class Aptent",
+        'Morem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nunc Vulputate Libero Et Velit Interdum, Ac Aliquet Odio Mattis. Class Aptent',
       icon: Target,
-      className: "left-[33%] top-[80px]",
+      className: 'left-[33%] top-[80px]',
     },
     {
-      title: "We Make You Standout",
+      title: 'We Make You Standout',
       description:
-        "Morem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nunc Vulputate Libero Et Velit Interdum, Ac Aliquet Odio Mattis. Class Aptent",
+        'Morem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nunc Vulputate Libero Et Velit Interdum, Ac Aliquet Odio Mattis. Class Aptent',
       icon: TrendingUp,
-      className: "left-[33%] top-[430px]",
+      className: 'left-[33%] top-[430px]',
     },
     {
-      title: "Communication Is Our Forte",
+      title: 'Communication Is Our Forte',
       description:
-        "Morem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nunc Vulputate Libero Et Velit Interdum, Ac Aliquet Odio Mattis. Class Aptent",
+        'Morem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nunc Vulputate Libero Et Velit Interdum, Ac Aliquet Odio Mattis. Class Aptent',
       icon: MessageSquare,
-      className: "left-[66%] top-[160px]",
+      className: 'left-[66%] top-[160px]',
     },
     {
-      title: "The People Say It All",
+      title: 'The People Say It All',
       description:
-        "Morem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nunc Vulputate Libero Et Velit Interdum, Ac Aliquet Odio Mattis. Class Aptent",
+        'Morem ipsum Dolor Sit Amet, Consectetur Adipiscing Elit. Nunc Vulputate Libero Et Velit Interdum, Ac Aliquet Odio Mattis. Class Aptent',
       icon: Users,
-      className: "left-[66%] top-[520px]",
+      className: 'left-[66%] top-[520px]',
     },
   ];
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-blue-900 pb-24">
+    <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-tr from-[#124a1f]  to-[#0d3817] pb-24">
       {/* Gradient overlay */}
       <div
         className="absolute inset-0"
@@ -65,7 +65,7 @@ export default function FeatureGrid() {
             linear-gradient(to right, rgba(255,255,255,0.05) 1px, transparent 1px),
             linear-gradient(to bottom, rgba(255,255,255,0.05) 1px, transparent 1px)
           `,
-          backgroundSize: "100% 100%, 40px 40px, 40px 40px",
+          backgroundSize: '100% 100%, 40px 40px, 40px 40px',
         }}
       />
 
@@ -91,17 +91,17 @@ export default function FeatureGrid() {
                   className="rounded-2xl p-6"
                   style={{
                     background:
-                      "linear-gradient(145deg, rgba(59,130,246,0.9) 0%, rgba(23,37,84,0.8) 100%)",
-                    backdropFilter: "blur(10px)",
+                      'linear-gradient(145deg, rgba(23, 93, 39,0.9) 0%, rgba(18,74,31,0.9) 100%)',
+                    backdropFilter: 'blur(10px)',
                   }}
                 >
-                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-blue-900">
+                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#0d3817]">
                     <feature.icon className="h-6 w-6 text-white/70" />
                   </div>
-                  <h3 className="mb-3 text-2xl font-extralight text-white/90">
+                  <h3 className="mb-3 text-2xl font-extralight text-white">
                     {feature.title}
                   </h3>
-                  <p className="text-sm leading-relaxed text-white/50">
+                  <p className="text-sm leading-relaxed text-white/80">
                     {feature.description}
                   </p>
                 </div>

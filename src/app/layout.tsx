@@ -3,8 +3,7 @@ import { Poppins } from 'next/font/google';
 import './globals.css';
 import Providers from '@/lib/providers/Providers';
 import { Toaster } from 'react-hot-toast';
-import { ThemeProvider } from '@/components/theme-provider';
-import { ClerkProvider } from '@clerk/nextjs';
+import NextTopLoader from 'nextjs-toploader';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -22,8 +21,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className=" bg-[#fafbfc]">
       <body className={poppins.className}>
+        <NextTopLoader showSpinner={false} color="#2dba4e" />
         <Toaster />
         <Providers>{children}</Providers>
       </body>

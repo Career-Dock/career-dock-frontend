@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import MaxWidthWrapper from "@/components/common/max-width-wrapper";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import Image from "next/image";
+import MaxWidthWrapper from '@/components/common/max-width-wrapper';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import Image from 'next/image';
 
 export default function FeatureShowcase() {
   const tabsData = [
     {
-      value: "Organize",
+      value: 'Organize',
       content: (
         <Image
           src="/dashboard-examples-blog.png"
@@ -19,7 +19,7 @@ export default function FeatureShowcase() {
       ),
     },
     {
-      value: "Create",
+      value: 'Create',
       content: (
         <Image
           src="/dashboard-examples-blog.png"
@@ -31,7 +31,7 @@ export default function FeatureShowcase() {
       ),
     },
     {
-      value: "Style",
+      value: 'Style',
       content: (
         <Image
           src="/dashboard-examples-blog.png"
@@ -43,7 +43,7 @@ export default function FeatureShowcase() {
       ),
     },
     {
-      value: "Share",
+      value: 'Share',
       content: (
         <Image
           src="/dashboard-examples-blog.png"
@@ -56,19 +56,19 @@ export default function FeatureShowcase() {
     },
   ];
   return (
-    <div className=" bg-[#F9F6F3] pb-24">
+    <div className=" bg-[#eaf8ed] pb-24">
       <MaxWidthWrapper className=" py-4 max-w-7xl md:px-0">
         {/* Browser Window Frame */}
 
         {/* Tabs Interface */}
         <Tabs defaultValue="organize" className="p-4">
           <div className="flex justify-center">
-            <TabsList className="inline-flex h-10 items-center justify-center rounded-full bg-[#F6F6F6] p-1">
-              {["Organize", "Create", "Style", "Share"].map((tab, index) => (
+            <TabsList className="inline-flex h-10 items-center justify-center rounded-full bg-[#d5f1dc] p-1">
+              {['Organize', 'Create', 'Style', 'Share'].map((tab, index) => (
                 <TabsTrigger
                   key={index}
                   value={tab.toLowerCase()}
-                  className="rounded-full px-8 data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-sm"
+                  className="rounded-full px-8 data-[state=active]:bg-white data-[state=active]:text-black data-[state=active]:shadow-sm text-[#092510]"
                 >
                   {tab}
                 </TabsTrigger>

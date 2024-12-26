@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Link from "next/link";
-import { ChevronRight, Menu } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { useState } from 'react';
+import Link from 'next/link';
+import { ChevronRight, Menu } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import {
   ClerkProvider,
   SignInButton,
   SignedIn,
   SignedOut,
   UserButton,
-} from "@clerk/nextjs";
+} from '@clerk/nextjs';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +51,7 @@ export default function Header() {
           </SignedOut>
         </div>
         <Button asChild className="hidden md:inline-flex">
-          <Link href="/start">Start</Link>
+          <Link href="/dashboard">Start</Link>
         </Button>
         <SignedIn>
           <UserButton />
