@@ -55,7 +55,7 @@ export default function FeatureGrid() {
   ];
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-gradient-to-tr from-[#124a1f]  to-[#0d3817] pb-24">
+    <div className="relative min-h-screen w-full overflow-hidden bg-blue-900 pb-24">
       {/* Gradient overlay */}
       <div
         className="absolute inset-0"
@@ -91,17 +91,17 @@ export default function FeatureGrid() {
                   className="rounded-2xl p-6"
                   style={{
                     background:
-                      'linear-gradient(145deg, rgba(23, 93, 39,0.9) 0%, rgba(18,74,31,0.9) 100%)',
+                      'linear-gradient(145deg, rgba(59,130,246,0.9) 0%, rgba(23,37,84,0.8) 100%)',
                     backdropFilter: 'blur(10px)',
                   }}
                 >
-                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#0d3817]">
+                  <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-blue-900">
                     <feature.icon className="h-6 w-6 text-white/70" />
                   </div>
-                  <h3 className="mb-3 text-2xl font-extralight text-white">
+                  <h3 className="mb-3 text-2xl font-extralight text-white/90">
                     {feature.title}
                   </h3>
-                  <p className="text-sm leading-relaxed text-white/80">
+                  <p className="text-sm leading-relaxed text-white/50">
                     {feature.description}
                   </p>
                 </div>

@@ -11,12 +11,6 @@ import {
   Boxes,
 } from 'lucide-react';
 
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 import MaxWidthWrapper from '@/components/common/max-width-wrapper';
 
 export default function FAQSection() {
@@ -85,7 +79,7 @@ export default function FAQSection() {
 
   return (
     <MaxWidthWrapper>
-      <section className="py-12 md:py-24">
+      <section className="py-12">
         <div className="">
           <div className="">
             <h2 className="text-5xl font-bold tracking-wide mb-2 text-headingPrimary">

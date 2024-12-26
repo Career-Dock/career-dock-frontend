@@ -56,14 +56,14 @@ export default function FeatureShowcase() {
     },
   ];
   return (
-    <div className=" bg-[#eaf8ed] pb-24">
+    <div className=" bg-[#F9F6F3] pb-24">
       <MaxWidthWrapper className=" py-4 max-w-7xl md:px-0">
         {/* Browser Window Frame */}
 
         {/* Tabs Interface */}
         <Tabs defaultValue="organize" className="p-4">
           <div className="flex justify-center">
-            <TabsList className="inline-flex h-10 items-center justify-center rounded-full bg-[#d5f1dc] p-1">
+            <TabsList className="inline-flex h-10 items-center justify-center rounded-full bg-white p-1">
               {['Organize', 'Create', 'Style', 'Share'].map((tab, index) => (
                 <TabsTrigger
                   key={index}
