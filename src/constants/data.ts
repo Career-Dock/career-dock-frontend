@@ -131,8 +131,8 @@ export const navItems: NavItem[] = [
     items: [], // Empty array as there are no child items for Dashboard
   },
   {
-    title: 'Applications',
-    url: '/dashboard/applications',
+    title: 'Applications Board',
+    url: '/dashboard/applications-boards',
     icon: 'product',
     shortcut: ['a', 'a'],
     isActive: false,
