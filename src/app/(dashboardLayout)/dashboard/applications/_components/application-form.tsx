@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Form,
   FormControl,
@@ -13,80 +13,82 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from '@/components/ui/command';
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Check, ChevronsUpDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/popover";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useAuth } from "@clerk/nextjs";
 
 const countries = [
-  { value: 'US', label: 'United States' },
-  { value: 'CA', label: 'Canada' },
-  { value: 'GB', label: 'United Kingdom' },
-  { value: 'DE', label: 'Germany' },
-  { value: 'FR', label: 'France' },
-  { value: 'JP', label: 'Japan' },
-  { value: 'AU', label: 'Australia' },
-  { value: 'IN', label: 'India' },
-  { value: 'CN', label: 'China' },
-  { value: 'BR', label: 'Brazil' },
+  { value: "US", label: "United States" },
+  { value: "CA", label: "Canada" },
+  { value: "GB", label: "United Kingdom" },
+  { value: "DE", label: "Germany" },
+  { value: "FR", label: "France" },
+  { value: "JP", label: "Japan" },
+  { value: "AU", label: "Australia" },
+  { value: "IN", label: "India" },
+  { value: "CN", label: "China" },
+  { value: "BR", label: "Brazil" },
   // Add more countries as needed
 ];
 
 const formSchema = z.object({
+  clerkUserId: z.string().optional(),
   jobTitle: z
     .string()
-    .min(2, { message: 'Job title must be at least 2 characters.' }),
+    .min(2, { message: "Job title must be at least 2 characters." }),
   jobRole: z
     .string()
-    .min(2, { message: 'Job role must be at least 2 characters.' }),
+    .min(2, { message: "Job role must be at least 2 characters." }),
   companyName: z.string().optional(),
   companyEmail: z
     .string()
-    .email({ message: 'Invalid email address.' })
+    .email({ message: "Invalid email address." })
     .optional(),
-  companyWebsite: z.string().url({ message: 'Invalid URL.' }).optional(),
+  companyWebsite: z.string().url({ message: "Invalid URL." }).optional(),
   companyPhoneNumber: z.string().optional(),
-  country: z.string().min(1, { message: 'Country is required.' }),
+  country: z.string().min(1, { message: "Country is required." }),
   appliedVia: z.enum([
-    'email',
-    'phone',
-    'linkedin',
-    'company_website',
-    'job_board',
-    'referral',
-    'social_media',
-    'other',
+    "email",
+    "phone",
+    "linkedin",
+    "company_website",
+    "job_board",
+    "referral",
+    "social_media",
+    "other",
   ]),
 
   jobPortal: z.string().optional(),
   address: z.string().optional(),
-  jobType: z.enum(['remote', 'onsite', 'hybrid']),
+  jobType: z.enum(["remote", "onsite", "hybrid"]),
   status: z.enum([
-    'Applied',
-    'Interview Scheduled',
-    'Rejected',
-    'Under Review',
+    "Applied",
+    "Interview Scheduled",
+    "Rejected",
+    "Under Review",
   ]),
   appliedDate: z.date().default(() => new Date()),
   interviewDetails: z
@@ -97,8 +99,8 @@ const formSchema = z.object({
     })
     .optional(),
   notes: z.string().optional(),
-  jobPostingURL: z.string().url({ message: 'Invalid URL.' }).optional(),
-  resumeURL: z.string().url({ message: 'Invalid URL.' }).optional(),
+  jobPostingURL: z.string().url({ message: "Invalid URL." }).optional(),
+  resumeURL: z.string().url({ message: "Invalid URL." }).optional(),
   salaryRange: z.string().optional(),
 });
 
@@ -110,15 +112,16 @@ export default function ApplicationForm({
   pageTitle: string;
 }) {
   const [open, setOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const { userId } = useAuth();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
-      jobType: 'remote',
-      status: 'Applied',
+      jobType: "remote",
+      status: "Applied",
       appliedDate: new Date(),
-      country: '',
+      country: "",
     },
   });
 
@@ -126,8 +129,27 @@ export default function ApplicationForm({
     country.label.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (!userId) {
+      throw new Error("User not authenticated");
+    }
+    values.clerkUserId = userId;
+    try {
+      const response = await fetch(
+        "http://localhost:5000/api/v1/applications",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(values),
+        }
+      );
+      const result = await response.json();
+      console.log("API Response:", result);
+    } catch (error) {
+      console.error("Error creating application:", error);
+    }
   }
 
   return (
@@ -225,15 +247,15 @@ export default function ApplicationForm({
                             role="combobox"
                             aria-expanded={open}
                             className={cn(
-                              'w-full justify-between',
-                              !field.value && 'text-muted-foreground'
+                              "w-full justify-between",
+                              !field.value && "text-muted-foreground"
                             )}
                           >
                             {field.value
                               ? countries.find(
                                   (country) => country.value === field.value
                                 )?.label
-                              : 'Select country'}
+                              : "Select country"}
                             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
                         </FormControl>
@@ -256,19 +278,19 @@ export default function ApplicationForm({
                                 <Button
                                   key={country.value}
                                   onClick={() => {
-                                    form.setValue('country', country.value);
+                                    form.setValue("country", country.value);
                                     setOpen(false);
-                                    setSearchQuery('');
+                                    setSearchQuery("");
                                   }}
                                   variant="ghost"
                                   className="w-full justify-start"
                                 >
                                   <Check
                                     className={cn(
-                                      'mr-2 h-4 w-4',
+                                      "mr-2 h-4 w-4",
                                       country.value === field.value
-                                        ? 'opacity-100'
-                                        : 'opacity-0'
+                                        ? "opacity-100"
+                                        : "opacity-0"
                                     )}
                                   />
                                   {country.label}
@@ -369,7 +391,7 @@ export default function ApplicationForm({
                         {...field}
                         value={
                           field.value instanceof Date
-                            ? field.value.toISOString().split('T')[0]
+                            ? field.value.toISOString().split("T")[0]
                             : field.value
                         }
                       />
@@ -473,9 +495,11 @@ export default function ApplicationForm({
                   name="interviewDetails.date"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Interview Date</FormLabel>
+                      <FormLabel>
+                        Interview Date <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <Input type="date" {...field} />
+                        <Input type="date" {...field} required />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -486,9 +510,11 @@ export default function ApplicationForm({
                   name="interviewDetails.time"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Interview Time</FormLabel>
+                      <FormLabel>
+                        Interview Time <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
-                        <Input type="time" {...field} />
+                        <Input type="time" {...field} required />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -499,11 +525,15 @@ export default function ApplicationForm({
                   name="interviewDetails.location"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Interview Location</FormLabel>
+                      <FormLabel>
+                        Interview Location{" "}
+                        <span className="text-red-500">*</span>
+                      </FormLabel>
                       <FormControl>
                         <Input
                           placeholder="Enter interview location"
                           {...field}
+                          required
                         />
                       </FormControl>
                       <FormMessage />

@@ -1,6 +1,6 @@
-import { fakeProducts, Product } from '@/constants/mock-api';
-import { notFound } from 'next/navigation';
-import ApplicationForm from './application-form';
+import { fakeProducts, Product } from "@/constants/mock-api";
+import { notFound } from "next/navigation";
+import ApplicationForm from "./application-form";
 
 type TApplicationViewPageProps = {
   applicationId: string;
@@ -10,9 +10,9 @@ export default async function ApplicationViewPage({
   applicationId,
 }: TApplicationViewPageProps) {
   let product = null;
-  let pageTitle = 'Create New Application';
+  let pageTitle = "Create New Application";
 
-  if (applicationId !== 'new') {
+  if (applicationId !== "new") {
     const data = await fakeProducts.getProductById(Number(applicationId));
     product = data.product as Product;
     if (!product) {
