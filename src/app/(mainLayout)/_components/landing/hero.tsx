@@ -11,7 +11,7 @@ export default function Hero() {
           Backed by Y Combinator
         </div>
 
-        <h1 className="max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl text-[#092510]">
+        <h1 className="max-w-4xl text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl text-headingPrimary">
           Turn Chaos into Career Success.
         </h1>
 
