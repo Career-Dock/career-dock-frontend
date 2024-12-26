@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -22,6 +23,35 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from '@/components/ui/command';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { Check, ChevronsUpDown } from 'lucide-react';
+import { cn } from '@/lib/utils';
+
+const countries = [
+  { value: 'US', label: 'United States' },
+  { value: 'CA', label: 'Canada' },
+  { value: 'GB', label: 'United Kingdom' },
+  { value: 'DE', label: 'Germany' },
+  { value: 'FR', label: 'France' },
+  { value: 'JP', label: 'Japan' },
+  { value: 'AU', label: 'Australia' },
+  { value: 'IN', label: 'India' },
+  { value: 'CN', label: 'China' },
+  { value: 'BR', label: 'Brazil' },
+  // Add more countries as needed
+];
 
 const formSchema = z.object({
   jobTitle: z
@@ -37,6 +67,7 @@ const formSchema = z.object({
     .optional(),
   companyWebsite: z.string().url({ message: 'Invalid URL.' }).optional(),
   companyPhoneNumber: z.string().optional(),
+  country: z.string().min(1, { message: 'Country is required.' }),
   appliedVia: z.enum([
     'email',
     'phone',
@@ -78,14 +109,22 @@ export default function ApplicationForm({
   initialData?: z.infer<typeof formSchema> | null;
   pageTitle: string;
 }) {
+  const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData || {
       jobType: 'remote',
       status: 'Applied',
       appliedDate: new Date(),
+      country: '',
     },
   });
+
+  const filteredCountries = countries.filter((country) =>
+    country.label.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
@@ -163,6 +202,80 @@ export default function ApplicationForm({
                         <SelectItem value="other">Other</SelectItem>
                       </SelectContent>
                     </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="country"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col mt-2">
+                    <FormLabel>
+                      Country <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <Popover open={open} onOpenChange={setOpen}>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={open}
+                            className={cn(
+                              'w-full justify-between',
+                              !field.value && 'text-muted-foreground'
+                            )}
+                          >
+                            {field.value
+                              ? countries.find(
+                                  (country) => country.value === field.value
+                                )?.label
+                              : 'Select country'}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[400px] p-0">
+                        <div className="flex flex-col">
+                          <Input
+                            placeholder="Search countries..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="border-b rounded-t-md focus:outline-none"
+                          />
+                          <ScrollArea className="h-72">
+                            {filteredCountries.length === 0 ? (
+                              <div className="p-2 text-sm text-gray-500">
+                                No countries found
+                              </div>
+                            ) : (
+                              filteredCountries.map((country) => (
+                                <Button
+                                  key={country.value}
+                                  onClick={() => {
+                                    form.setValue('country', country.value);
+                                    setOpen(false);
+                                    setSearchQuery('');
+                                  }}
+                                  variant="ghost"
+                                  className="w-full justify-start"
+                                >
+                                  <Check
+                                    className={cn(
+                                      'mr-2 h-4 w-4',
+                                      country.value === field.value
+                                        ? 'opacity-100'
+                                        : 'opacity-0'
+                                    )}
+                                  />
+                                  {country.label}
+                                </Button>
+                              ))
+                            )}
+                          </ScrollArea>
+                        </div>
+                      </PopoverContent>
+                    </Popover>
                     <FormMessage />
                   </FormItem>
                 )}
