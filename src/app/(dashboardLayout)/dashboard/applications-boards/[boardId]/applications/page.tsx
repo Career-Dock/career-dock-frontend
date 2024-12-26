@@ -35,7 +35,7 @@ export default async function Page(props: pageProps) {
         <div className="flex items-start justify-between">
           <Heading title="Applications" description="Manage Applications" />
           <Link
-            href="/dashboard/applications/new"
+            href="/dashboard/applications-boards/fdfdfd/applications/new"
             className={cn(buttonVariants(), 'text-xs md:text-sm')}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
