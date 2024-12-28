@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { Plus, Search, Grid, List } from 'lucide-react';
 import { useSearchParams, useRouter, usePathname } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -22,12 +23,62 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+
+export const boardSchema = z.object({
+  name: z.string().min(1, {
+    message: 'Board name is required.',
+  }),
+  description: z.string().optional(),
+  image: z.string().url().optional().or(z.literal('')),
+});
 
 export function BoardsHeader() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
   const viewMode = searchParams.get('view') || 'grid';
+  const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const form = useForm<z.infer<typeof boardSchema>>({
+    resolver: zodResolver(boardSchema),
+    defaultValues: {
+      name: '',
+      description: '',
+      image: '',
+    },
+  });
+
+  const onSubmit = async (values: z.infer<typeof boardSchema>) => {
+    setIsLoading(true);
+    try {
+      // Simulating an API call
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      console.log('New board created:', values);
+      // Here you would typically send the data to your backend
+      // and update the boards list in the parent component
+
+      form.reset();
+      setIsOpen(false);
+    } catch (err) {
+      console.error('Failed to create board:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const createQueryString = (name: string, value: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -46,7 +97,7 @@ export function BoardsHeader() {
             Manage and organize your application groups
           </p>
         </div>
-        <Dialog>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
             <Button className="shadow-sm">
               <Plus className="mr-2 h-4 w-4" />
@@ -54,33 +105,72 @@ export function BoardsHeader() {
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[525px]">
-            <DialogHeader>
-              <DialogTitle>Create New Board</DialogTitle>
-              <DialogDescription>
-                Create a new board to group your applications
-              </DialogDescription>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" placeholder="Enter board name" />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="description">Description</Label>
-                <Textarea
-                  id="description"
-                  placeholder="Enter board description"
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="image">Image URL</Label>
-                <Input id="image" placeholder="Enter image URL (optional)" />
-              </div>
-            </div>
-            <DialogFooter>
-              <Button variant="outline">Cancel</Button>
-              <Button type="submit">Create Board</Button>
-            </DialogFooter>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)}>
+                <DialogHeader>
+                  <DialogTitle>Create New Board</DialogTitle>
+                  <DialogDescription>
+                    Create a new board to group your applications
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter board name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="description"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Description</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder="Enter board description"
+                            className="resize-none"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="image"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Image URL</FormLabel>
+                        <FormControl>
+                          <Input
+                            placeholder="Enter image URL (optional)"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <DialogFooter>
+                  <Button variant="outline" onClick={() => setIsOpen(false)}>
+                    Cancel
+                  </Button>
+                  <Button type="submit" disabled={isLoading}>
+                    {isLoading ? 'Creating...' : 'Create Board'}
+                  </Button>
+                </DialogFooter>
+              </form>
+            </Form>
           </DialogContent>
         </Dialog>
       </div>
