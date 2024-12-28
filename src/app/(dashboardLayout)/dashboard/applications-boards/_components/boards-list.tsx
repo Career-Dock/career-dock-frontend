@@ -33,6 +33,17 @@ interface BoardsListProps {
   initialBoards: Board[];
 }
 
+const allApplictions = {
+  _id: 'hgkdfhdkjf',
+  name: 'All Applications',
+  description: 'All applications from all the boards, at one place',
+  image: '/board.jpg',
+  createdAt: new Date('2024-01-15'),
+  updatedAt: new Date('2024-01-22'),
+  totalApplications: 50,
+  activeApplications: 45,
+};
+
 export function BoardsList({ initialBoards }: BoardsListProps) {
   const [boards, setBoards] = useState(initialBoards);
   const searchParams = useSearchParams();
@@ -103,6 +114,7 @@ export function BoardsList({ initialBoards }: BoardsListProps) {
       {boards.map((board) => (
         <BoardCard key={board._id} board={board} viewMode={viewMode} />
       ))}
+      <BoardCard board={allApplictions} viewMode={viewMode} />
     </div>
   );
 }
