@@ -17,6 +17,18 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useSearchParams } from 'next/navigation';
 import { BoardCard } from './board-card';
+import { z } from 'zod';
+import { postRequest } from '@/utils/fetchMethods';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
 interface Board {
   _id: string;
@@ -44,10 +56,29 @@ const allApplictions = {
   activeApplications: 45,
 };
 
+const formSchema = z.object({
+  name: z.string().min(1, 'Board name is required'),
+  description: z.string().min(1, 'Board description is required').optional(),
+  image: z.string().min(1, 'Board image is required').optional(),
+});
+
 export function BoardsList({ initialBoards }: BoardsListProps) {
   const [boards, setBoards] = useState(initialBoards);
   const searchParams = useSearchParams();
   const viewMode = (searchParams.get('view') as 'grid' | 'list') || 'grid';
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: '',
+      description: '',
+      image: '',
+    },
+  });
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const result = await postRequest('application-groups', values);
+    console.log('API Response:', result);
+  }
 
   if (boards.length === 0) {
     return (
@@ -71,31 +102,50 @@ export function BoardsList({ initialBoards }: BoardsListProps) {
                   Add a new board to organize your applications.
                 </DialogDescription>
               </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="name" className="text-right">
-                    Name
-                  </Label>
-                  <Input
-                    id="name"
-                    placeholder="Enter board name"
-                    className="col-span-3"
-                  />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                  <Label htmlFor="description" className="text-right">
-                    Description
-                  </Label>
-                  <Textarea
-                    id="description"
-                    placeholder="Enter board description"
-                    className="col-span-3"
-                  />
-                </div>
-              </div>
-              <DialogFooter>
-                <Button type="submit">Create board</Button>
-              </DialogFooter>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                  <div className="grid gap-4 py-4">
+                    <FormField
+                      control={form.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>
+                            Names <span className="text-red-500">*</span>
+                          </FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter board name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="name" className="text-right">
+                        Name
+                      </Label>
+                      <Input
+                        id="name"
+                        placeholder="Enter board name"
+                        className="col-span-3"
+                      />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="description" className="text-right">
+                        Description
+                      </Label>
+                      <Textarea
+                        id="description"
+                        placeholder="Enter board description"
+                        className="col-span-3"
+                      />
+                    </div>
+                  </div>
+                  <DialogFooter>
+                    <Button type="submit">Create board</Button>
+                  </DialogFooter>
+                </form>
+              </Form>
             </DialogContent>
           </Dialog>
         </div>
