@@ -33,6 +33,16 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 interface BoardCardProps {
   board: {
@@ -50,6 +60,7 @@ interface BoardCardProps {
 
 export function BoardCard({ board, viewMode }: BoardCardProps) {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [editedBoard, setEditedBoard] = useState(board);
 
   const handleEditSubmit = (event: React.FormEvent) => {
@@ -57,6 +68,12 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
     // Here you would typically send the editedBoard data to your backend
     console.log('Submitting edited board:', editedBoard);
     setIsEditDialogOpen(false);
+  };
+
+  const handleDeleteConfirm = () => {
+    // Here you would typically send a delete request to your backend
+    console.log('Deleting board:', board._id);
+    setIsDeleteDialogOpen(false);
   };
 
   const renderEditDialog = () => (
@@ -121,6 +138,26 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
     </Dialog>
   );
 
+  const renderDeleteDialog = () => (
+    <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            This action cannot be undone. This will permanently delete the board
+            and remove all associated data.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction onClick={handleDeleteConfirm}>
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
+
   if (viewMode === 'list') {
     return (
       <Card className="group relative overflow-hidden transition-all hover:shadow-md">
@@ -182,7 +219,10 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
                   Edit Board
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-destructive">
+                <DropdownMenuItem
+                  onSelect={() => setIsDeleteDialogOpen(true)}
+                  className="text-destructive"
+                >
                   <Trash2 className="mr-2 h-4 w-4" />
                   Delete Board
                 </DropdownMenuItem>
@@ -191,6 +231,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
           </div>
         </div>
         {renderEditDialog()}
+        {renderDeleteDialog()}
       </Card>
     );
   }
@@ -216,7 +257,10 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
                 Edit Board
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-destructive">
+              <DropdownMenuItem
+                onSelect={() => setIsDeleteDialogOpen(true)}
+                className="text-destructive"
+              >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Delete Board
               </DropdownMenuItem>
@@ -259,6 +303,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
         </Button>
       </Link>
       {renderEditDialog()}
+      {renderDeleteDialog()}
     </Card>
   );
 }
