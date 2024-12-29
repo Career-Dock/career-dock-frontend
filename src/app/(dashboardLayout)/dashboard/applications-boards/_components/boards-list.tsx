@@ -144,10 +144,10 @@ export function BoardsList({ initialBoards }: BoardsListProps) {
           : "grid-cols-1"
       }`}
     >
+      <BoardCard board={allApplictions} viewMode={viewMode} />
       {boards.map((board) => (
         <BoardCard key={board._id} board={board} viewMode={viewMode} />
       ))}
-      <BoardCard board={allApplictions} viewMode={viewMode} />
     </div>
   );
 }

@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { MoreHorizontal, Pencil, Clock, Trash2 } from 'lucide-react';
-import { format } from 'date-fns';
+import { MoreHorizontal, Pencil, Clock, Trash2 } from "lucide-react";
+import { format } from "date-fns";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,9 +18,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Badge } from '@/components/ui/badge';
-import Link from 'next/link';
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
 
 interface BoardCardProps {
   board: {
@@ -33,17 +33,17 @@ interface BoardCardProps {
     totalApplications: number;
     activeApplications: number;
   };
-  viewMode: 'grid' | 'list';
+  viewMode: "grid" | "list";
 }
 
 export function BoardCard({ board, viewMode }: BoardCardProps) {
-  if (viewMode === 'list') {
+  if (viewMode === "list") {
     return (
       <Card className="group relative overflow-hidden transition-all hover:shadow-md">
         <div className="flex items-start p-4 gap-4">
           <div className="w-24 h-24 flex-shrink-0 rounded-md overflow-hidden">
             <img
-              src={board.image}
+              src={board.image || "/board.jpg"}
               alt={board.name}
               className="w-full h-full object-cover"
             />
@@ -53,7 +53,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
             <CardHeader className="p-0">
               <CardTitle className="line-clamp-1">{board.name}</CardTitle>
               <CardDescription className="line-clamp-2 mt-0.5">
-                {board.description}
+                {board.description || "No description"}
               </CardDescription>
             </CardHeader>
 
@@ -67,7 +67,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
                 </Badge>
               </div>
               <div className="mt-2 text-sm text-muted-foreground">
-                Last updated {format(board.updatedAt, 'MMM d, yyyy')}
+                Last updated {format(board.updatedAt, "MMM d, yyyy")}
               </div>
             </CardContent>
           </div>
@@ -94,10 +94,6 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
                 <DropdownMenuItem>
                   <Pencil className="mr-2 h-4 w-4" />
                   Edit Board
-                </DropdownMenuItem>
-                <DropdownMenuItem>
-                  <Clock className="mr-2 h-4 w-4" />
-                  View History
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="text-destructive">
@@ -132,10 +128,6 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
                 <Pencil className="mr-2 h-4 w-4" />
                 Edit Board
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Clock className="mr-2 h-4 w-4" />
-                View History
-              </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem className="text-destructive">
                 <Trash2 className="mr-2 h-4 w-4" />
@@ -146,7 +138,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
         </div>
         <div className="w-full h-[180px] bg-muted overflow-hidden group-hover:opacity-90 transition-opacity rounded-t-lg">
           <img
-            src={board.image}
+            src={board.image || "/board.jpg"}
             alt={board.name}
             className="w-full h-full object-cover"
           />
@@ -154,7 +146,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
         <div className="p-5 pt-3">
           <CardTitle className="line-clamp-1">{board.name}</CardTitle>
           <CardDescription className="line-clamp-2 mt-0.5">
-            {board.description}
+            {board.description || "No description"}
           </CardDescription>
         </div>
       </CardHeader>
@@ -168,7 +160,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
           </Badge>
         </div>
         <div className="mt-2 text-sm text-muted-foreground">
-          Last updated {format(board.updatedAt, 'MMM d, yyyy')}
+          Last updated {format(board.updatedAt, "MMM d, yyyy")}
         </div>
       </CardContent>
       <Link
