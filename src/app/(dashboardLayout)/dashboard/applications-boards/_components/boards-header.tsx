@@ -62,8 +62,12 @@ export function BoardsHeader() {
   });
 
   const onSubmit = async (values: z.infer<typeof boardSchema>) => {
-    const result = await fetchData("application-groups", "POST", values);
-    console.log("API Response:", result);
+    const result = await fetchData(
+      "application-groups",
+      "POST",
+      values,
+      "/dashboard/applications-boards"
+    );
     form.reset();
     setIsOpen(false);
   };

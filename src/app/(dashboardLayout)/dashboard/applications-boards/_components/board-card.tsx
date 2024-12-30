@@ -71,7 +71,8 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
     const result = await fetchData(
       `application-groups/${board._id}`,
       "PATCH",
-      editedBoard
+      editedBoard,
+      "dashboard/applications-boards"
     );
     // Here you would typically send the editedBoard data to your backend
     console.log("Submitting edited board:", editedBoard);
@@ -84,7 +85,8 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
     const result = await fetchData(
       `application-groups/${board._id}`,
       "DELETE",
-      editedBoard
+      editedBoard,
+      "/dashboard/applications-boards"
     );
     setIsDeleteDialogOpen(false);
   };
