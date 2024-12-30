@@ -4,7 +4,7 @@ import { searchParams } from '@/lib/searchparams';
 import { useQueryState } from 'nuqs';
 import { useCallback, useMemo } from 'react';
 
-export const CATEGORY_OPTIONS = [
+export const STATUS_OPTIONS = [
   { value: 'Electronics', label: 'Electronics' },
   { value: 'Furniture', label: 'Furniture' },
   { value: 'Clothing', label: 'Clothing' },
@@ -12,7 +12,7 @@ export const CATEGORY_OPTIONS = [
   { value: 'Groceries', label: 'Groceries' },
   { value: 'Books', label: 'Books' },
   { value: 'Jewelry', label: 'Jewelry' },
-  { value: 'Beauty Products', label: 'Beauty Products' }
+  { value: 'Beauty Products', label: 'Beauty Products' },
 ];
 export function useProductTableFilters() {
   const [searchQuery, setSearchQuery] = useQueryState(
@@ -24,7 +24,7 @@ export function useProductTableFilters() {
 
   const [categoriesFilter, setCategoriesFilter] = useQueryState(
     'categories',
-    searchParams.categories.withOptions({ shallow: false }).withDefault('')
+    searchParams.status.withOptions({ shallow: false }).withDefault('')
   );
 
   const [page, setPage] = useQueryState(
@@ -51,6 +51,6 @@ export function useProductTableFilters() {
     resetFilters,
     isAnyFilterActive,
     categoriesFilter,
-    setCategoriesFilter
+    setCategoriesFilter,
   };
 }

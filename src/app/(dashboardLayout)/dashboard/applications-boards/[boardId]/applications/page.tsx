@@ -17,17 +17,22 @@ export const metadata = {
   title: 'Applications',
 };
 
-type pageProps = {
+type PageProps = {
   searchParams: Promise<SearchParams>;
+  params: {
+    boardId: string;
+  };
 };
 
-export default async function Page(props: pageProps) {
-  const searchParams = await props.searchParams;
+export default async function Page({ searchParams, params }: PageProps) {
+  const resolvedSearchParams = await searchParams;
   // Allow nested RSCs to access the search params (in a type-safe way)
-  searchParamsCache.parse(searchParams);
+  searchParamsCache.parse(resolvedSearchParams);
 
   // This key is used for invoke suspense if any of the search params changed (used for filters).
-  const key = serialize({ ...searchParams });
+  const key = serialize({ ...resolvedSearchParams });
+
+  const { boardId } = params;
 
   return (
     <PageContainer>
@@ -35,7 +40,7 @@ export default async function Page(props: pageProps) {
         <div className="flex items-start justify-between">
           <Heading title="Applications" description="Manage Applications" />
           <Link
-            href="/dashboard/applications-boards/fdfdfd/applications/new"
+            href={`/dashboard/applications-boards/${boardId}/applications/new`}
             className={cn(buttonVariants(), 'text-xs md:text-sm')}
           >
             <Plus className="mr-2 h-4 w-4" /> Add New
@@ -45,7 +50,7 @@ export default async function Page(props: pageProps) {
         <ApplicationsTableAction />
         <Suspense
           key={key}
-          fallback={<DataTableSkeleton columnCount={5} rowCount={10} />}
+          fallback={<DataTableSkeleton columnCount={5} rowCount={5} />}
         >
           <ApplicationListingPage />
         </Suspense>
