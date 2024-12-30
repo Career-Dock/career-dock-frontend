@@ -5,15 +5,18 @@ import { useQueryState } from 'nuqs';
 import { useCallback, useMemo } from 'react';
 
 export const STATUS_OPTIONS = [
-  { value: 'Electronics', label: 'Electronics' },
-  { value: 'Furniture', label: 'Furniture' },
-  { value: 'Clothing', label: 'Clothing' },
-  { value: 'Toys', label: 'Toys' },
-  { value: 'Groceries', label: 'Groceries' },
-  { value: 'Books', label: 'Books' },
-  { value: 'Jewelry', label: 'Jewelry' },
-  { value: 'Beauty Products', label: 'Beauty Products' },
+  { value: 'Interview Scheduled', label: 'Interview Scheduled' },
+  { value: 'Applied', label: 'Applied' },
+  { value: 'Rejected', label: 'Rejected' },
+  { value: 'Under Review', label: 'Under Review' },
 ];
+
+export const JOB_TYPE_OPTIONS = [
+  { value: 'remote', label: 'Remote' },
+  { value: 'onsite', label: 'Onsite' },
+  { value: 'hybrid', label: 'Hybrid' },
+];
+
 export function useProductTableFilters() {
   const [searchQuery, setSearchQuery] = useQueryState(
     'q',
@@ -22,9 +25,14 @@ export function useProductTableFilters() {
       .withDefault('')
   );
 
-  const [categoriesFilter, setCategoriesFilter] = useQueryState(
-    'categories',
+  const [statusFilter, setStatusFilter] = useQueryState(
+    'status',
     searchParams.status.withOptions({ shallow: false }).withDefault('')
+  );
+
+  const [jobTypeFilter, setJobTypeFilter] = useQueryState(
+    'jobType',
+    searchParams.jobType.withOptions({ shallow: false }).withDefault('')
   );
 
   const [page, setPage] = useQueryState(
@@ -34,14 +42,14 @@ export function useProductTableFilters() {
 
   const resetFilters = useCallback(() => {
     setSearchQuery(null);
-    setCategoriesFilter(null);
-
+    setStatusFilter(null);
+    setJobTypeFilter(null);
     setPage(1);
-  }, [setSearchQuery, setCategoriesFilter, setPage]);
+  }, [setSearchQuery, setStatusFilter, setPage, setJobTypeFilter]);
 
   const isAnyFilterActive = useMemo(() => {
-    return !!searchQuery || !!categoriesFilter;
-  }, [searchQuery, categoriesFilter]);
+    return !!searchQuery || !!statusFilter || !!jobTypeFilter;
+  }, [searchQuery, statusFilter, jobTypeFilter]);
 
   return {
     searchQuery,
@@ -50,7 +58,9 @@ export function useProductTableFilters() {
     setPage,
     resetFilters,
     isAnyFilterActive,
-    categoriesFilter,
-    setCategoriesFilter,
+    statusFilter,
+    setStatusFilter,
+    jobTypeFilter,
+    setJobTypeFilter,
   };
 }
