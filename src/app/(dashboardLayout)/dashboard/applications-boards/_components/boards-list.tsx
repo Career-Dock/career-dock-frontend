@@ -41,7 +41,7 @@ export function BoardsList({ initialBoards }: BoardsListProps) {
           : 'grid-cols-1'
       }`}
     >
-      <BoardCard board={allApplictions} viewMode={viewMode} />
+      <BoardCard board={allApplications} viewMode={viewMode} />
       {initialBoards?.map((board) => (
         <BoardCard key={board._id} board={board} viewMode={viewMode} />
       ))}
