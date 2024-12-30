@@ -10,6 +10,13 @@ export const STATUS_OPTIONS = [
   { value: 'Rejected', label: 'Rejected' },
   { value: 'Under Review', label: 'Under Review' },
 ];
+
+export const JOB_TYPE_OPTIONS = [
+  { value: 'remote', label: 'Remote' },
+  { value: 'onsite', label: 'Onsite' },
+  { value: 'hybrid', label: 'Hybrid' },
+];
+
 export function useProductTableFilters() {
   const [searchQuery, setSearchQuery] = useQueryState(
     'q',
@@ -23,6 +30,11 @@ export function useProductTableFilters() {
     searchParams.status.withOptions({ shallow: false }).withDefault('')
   );
 
+  const [jobTypeFilter, setJobTypeFilter] = useQueryState(
+    'jobType',
+    searchParams.jobType.withOptions({ shallow: false }).withDefault('')
+  );
+
   const [page, setPage] = useQueryState(
     'page',
     searchParams.page.withDefault(1)
@@ -31,13 +43,13 @@ export function useProductTableFilters() {
   const resetFilters = useCallback(() => {
     setSearchQuery(null);
     setStatusFilter(null);
-
+    setJobTypeFilter(null);
     setPage(1);
-  }, [setSearchQuery, setStatusFilter, setPage]);
+  }, [setSearchQuery, setStatusFilter, setPage, setJobTypeFilter]);
 
   const isAnyFilterActive = useMemo(() => {
-    return !!searchQuery || !!statusFilter;
-  }, [searchQuery, statusFilter]);
+    return !!searchQuery || !!statusFilter || !!jobTypeFilter;
+  }, [searchQuery, statusFilter, jobTypeFilter]);
 
   return {
     searchQuery,
@@ -48,5 +60,7 @@ export function useProductTableFilters() {
     isAnyFilterActive,
     statusFilter,
     setStatusFilter,
+    jobTypeFilter,
+    setJobTypeFilter,
   };
 }

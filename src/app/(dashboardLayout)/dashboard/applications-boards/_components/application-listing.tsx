@@ -17,7 +17,7 @@ export default async function ApplicationListingPage({}: ApplicationListingPage)
   const queryParams = new URLSearchParams({
     ...(search && { searchTerm: search }),
     ...(status && { status }),
-    ...(jobType && { fields: jobType }), // Assuming 'fields' refers to job type here
+    ...(jobType && { jobType }), // Assuming 'fields' refers to job type here
     page: String(page),
     limit: String(pageLimit),
   }).toString();

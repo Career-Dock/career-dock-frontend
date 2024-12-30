@@ -5,12 +5,15 @@ import { DataTableResetFilter } from '@/components/ui/table/data-table-reset-fil
 import { DataTableSearch } from '@/components/ui/table/data-table-search';
 import {
   STATUS_OPTIONS,
+  JOB_TYPE_OPTIONS,
   useProductTableFilters,
 } from './use-product-table-filters';
 
 export default function ApplicationsTableAction() {
   const {
     setStatusFilter,
+    setJobTypeFilter,
+    jobTypeFilter,
     statusFilter,
     isAnyFilterActive,
     resetFilters,
@@ -32,6 +35,13 @@ export default function ApplicationsTableAction() {
         options={STATUS_OPTIONS}
         setFilterValue={setStatusFilter}
         filterValue={statusFilter}
+      />
+      <DataTableFilterBox
+        filterKey="jobType"
+        title="Job Type"
+        options={JOB_TYPE_OPTIONS}
+        setFilterValue={setJobTypeFilter}
+        filterValue={jobTypeFilter}
       />
       <DataTableResetFilter
         isFilterActive={isAnyFilterActive}
