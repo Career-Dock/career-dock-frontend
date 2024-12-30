@@ -1,34 +1,51 @@
-import { Product } from '@/constants/data';
-import { fakeProducts } from '@/constants/mock-api';
 import { searchParamsCache } from '@/lib/searchparams';
 import { DataTable as ApplicationTable } from '@/components/ui/table/data-table';
 import { columns } from './applications-tables/columns';
+import { fetchFromServer } from '@/utils/fetchFromServer';
 
-type ProductListingPage = {};
+type ApplicationListingPage = {};
 
-export default async function ApplicationListingPage({}: ProductListingPage) {
-  // Showcasing the use of search params cache in nested RSCs
-  const page = searchParamsCache.get('page');
-  const search = searchParamsCache.get('q');
-  const pageLimit = searchParamsCache.get('limit');
-  const categories = searchParamsCache.get('categories');
+export default async function ApplicationListingPage({}: ApplicationListingPage) {
+  // Retrieve query parameters from the searchParamsCache
+  const page = searchParamsCache.get('page') || 1; // Default to page 1 if not set
+  const search = searchParamsCache.get('q'); // Search term
+  const pageLimit = searchParamsCache.get('limit') || 10; // Default to 10 items per page
+  const status = searchParamsCache.get('status'); // Status filter
+  const jobType = searchParamsCache.get('jobType'); // Job type filter
 
-  const filters = {
-    page,
-    limit: pageLimit,
-    ...(search && { search }),
-    ...(categories && { categories: categories }),
-  };
+  // Construct API query parameters
+  const queryParams = new URLSearchParams({
+    ...(search && { searchTerm: search }),
+    ...(status && { status }),
+    ...(jobType && { fields: jobType }), // Assuming 'fields' refers to job type here
+    page: String(page),
+    limit: String(pageLimit),
+  }).toString();
 
-  const data = await fakeProducts.getProducts(filters);
-  const totalProducts = data.total_products;
-  const products: Product[] = data.products;
+  try {
+    // Fetch data from the real API
+    const response = await fetchFromServer(`/applications?${queryParams}`);
 
-  return (
-    <ApplicationTable
-      columns={columns}
-      data={products}
-      totalItems={totalProducts}
-    />
-  );
+    console.log('response', response?.data);
+
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to fetch data');
+    }
+
+    //const { totalItems, items: products } = response; // Adjust keys based on your API's response structure
+
+    const totalItems = response?.data?.count;
+    const applications = response?.data?.applications;
+
+    return (
+      <ApplicationTable
+        columns={columns}
+        data={applications || []}
+        totalItems={totalItems}
+      />
+    );
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return <div>Error loading data. Please try again later.</div>;
+  }
 }

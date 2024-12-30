@@ -3,43 +3,40 @@ import { Product } from '@/constants/data';
 import { ColumnDef } from '@tanstack/react-table';
 import Image from 'next/image';
 import { CellAction } from './cell-action';
+import { TApplication } from '@/types/application';
 
-export const columns: ColumnDef<Product>[] = [
+export const columns: ColumnDef<TApplication>[] = [
   {
-    accessorKey: 'photo_url',
-    header: 'IMAGE',
+    accessorKey: 'jobTitle',
+    header: 'Job Title',
+  },
+  {
+    accessorKey: 'companyName',
+    header: 'Company',
     cell: ({ row }) => {
-      return (
-        <div className="relative aspect-square">
-          <Image
-            src={row.getValue('photo_url')}
-            alt={row.getValue('name')}
-            fill
-            className="rounded-lg"
-          />
-        </div>
-      );
-    }
+      const company = row.getValue('companyName') as string;
+      return <span>{company || 'N/A'}</span>;
+    },
   },
   {
-    accessorKey: 'name',
-    header: 'NAME'
+    accessorKey: 'status',
+    header: 'Status',
   },
   {
-    accessorKey: 'category',
-    header: 'CATEGORY'
+    accessorKey: 'jobType',
+    header: 'Job Type',
   },
   {
-    accessorKey: 'price',
-    header: 'PRICE'
-  },
-  {
-    accessorKey: 'description',
-    header: 'DESCRIPTION'
+    accessorKey: 'appliedDate',
+    header: 'Applied Date',
+    cell: ({ row }) => {
+      const date = row.getValue('appliedDate') as Date;
+      return date ? new Date(date).toLocaleDateString() : 'N/A';
+    },
   },
 
   {
     id: 'actions',
-    cell: ({ row }) => <CellAction data={row.original} />
-  }
+    cell: ({ row }) => <CellAction data={row.original} />,
+  },
 ];

@@ -4,7 +4,7 @@ import { DataTableFilterBox } from '@/components/ui/table/data-table-filter-box'
 import { DataTableResetFilter } from '@/components/ui/table/data-table-reset-filter';
 import { DataTableSearch } from '@/components/ui/table/data-table-search';
 import {
-  CATEGORY_OPTIONS,
+  STATUS_OPTIONS,
   useProductTableFilters,
 } from './use-product-table-filters';
 
@@ -29,7 +29,7 @@ export default function ApplicationsTableAction() {
       <DataTableFilterBox
         filterKey="categories"
         title="Categories"
-        options={CATEGORY_OPTIONS}
+        options={STATUS_OPTIONS}
         setFilterValue={setCategoriesFilter}
         filterValue={categoriesFilter}
       />
