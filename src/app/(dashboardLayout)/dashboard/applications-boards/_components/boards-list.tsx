@@ -16,20 +16,10 @@ interface Board {
 
 interface BoardsListProps {
   initialBoards: Board[];
+  allApplications: Board;
 }
 
-const allApplications = {
-  _id: 'hgkdfhdkjf',
-  name: 'All Applications',
-  description: 'All applications from all the boards, at one place',
-  image: '/board.jpg',
-  createdAt: new Date('2024-01-15'),
-  updatedAt: new Date('2024-01-22'),
-  totalApplications: 50,
-  activeApplications: 45,
-};
-
-export function BoardsList({ initialBoards }: BoardsListProps) {
+export function BoardsList({ initialBoards, allApplications }: BoardsListProps) {
   const searchParams = useSearchParams();
   const viewMode = (searchParams.get('view') as 'grid' | 'list') || 'grid';
 

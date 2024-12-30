@@ -33,6 +33,7 @@ export default async function Page({ searchParams, params }: PageProps) {
   const key = serialize({ ...resolvedSearchParams });
 
   const { boardId } = params;
+  console.log({boardId})
 
   return (
     <PageContainer>
@@ -52,7 +53,7 @@ export default async function Page({ searchParams, params }: PageProps) {
           key={key}
           fallback={<DataTableSkeleton columnCount={5} rowCount={5} />}
         >
-          <ApplicationListingPage />
+          <ApplicationListingPage boardId={boardId} />
         </Suspense>
       </div>
     </PageContainer>
