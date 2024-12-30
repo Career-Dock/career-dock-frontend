@@ -8,6 +8,8 @@ export function useFetch() {
   const { getToken } = useAuth();
 
   const fetchData = async (endpoint: string, method: string, values: any) => {
+    const token = await getToken();
+    console.log(token);
     setIsLoading(true);
     setError(null);
     try {

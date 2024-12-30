@@ -44,7 +44,7 @@ interface BoardsListProps {
   initialBoards: Board[];
 }
 
-const allApplictions = {
+const allApplications = {
   _id: 'hgkdfhdkjf',
   name: 'All Applications',
   description: 'All applications from all the boards, at one place',
@@ -78,7 +78,6 @@ export function BoardsList({ initialBoards }: BoardsListProps) {
     // const result = await postRequest("application-groups", values);
     // console.log("API Response:", result);
   }
-
   return (
     <div
       className={`grid gap-6 ${
@@ -87,7 +86,7 @@ export function BoardsList({ initialBoards }: BoardsListProps) {
           : 'grid-cols-1'
       }`}
     >
-      <BoardCard board={allApplictions} viewMode={viewMode} />
+      <BoardCard board={allApplications} viewMode={viewMode} />
       {boards?.map((board) => (
         <BoardCard key={board._id} board={board} viewMode={viewMode} />
       ))}
