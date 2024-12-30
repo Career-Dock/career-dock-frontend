@@ -1,5 +1,7 @@
+import revalidatePaths from "@/app/actions";
 import { useAuth } from "@clerk/nextjs";
-import { useState, useCallback } from "react";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 export function useFetch() {
   const [isLoading, setIsLoading] = useState(false);
@@ -7,7 +9,12 @@ export function useFetch() {
 
   const { getToken } = useAuth();
 
-  const fetchData = async (endpoint: string, method: string, values: any) => {
+  const fetchData = async (
+    endpoint: string,
+    method: string,
+    values: any,
+    revalPath?: string
+  ) => {
     setIsLoading(true);
     setError(null);
     try {
@@ -19,16 +26,21 @@ export function useFetch() {
         },
         body: JSON.stringify(values),
       });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
       const result = await response.json();
+      if (!response.ok) {
+        throw new Error(result.message);
+      }
+      if (revalPath) {
+        await revalidatePaths(revalPath);
+      }
+      toast.success(result.message);
       setIsLoading(false);
       return result;
-    } catch (error) {
+    } catch (error: any) {
       setError(
         error instanceof Error ? error : new Error("An unknown error occurred")
       );
+      toast.error(error.message);
       setIsLoading(false);
     }
   };
