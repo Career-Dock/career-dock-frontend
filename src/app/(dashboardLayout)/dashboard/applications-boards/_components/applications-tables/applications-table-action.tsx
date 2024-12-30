@@ -10,8 +10,8 @@ import {
 
 export default function ApplicationsTableAction() {
   const {
-    categoriesFilter,
-    setCategoriesFilter,
+    setStatusFilter,
+    statusFilter,
     isAnyFilterActive,
     resetFilters,
     searchQuery,
@@ -27,11 +27,11 @@ export default function ApplicationsTableAction() {
         setPage={setPage}
       />
       <DataTableFilterBox
-        filterKey="categories"
-        title="Categories"
+        filterKey="status"
+        title="Status"
         options={STATUS_OPTIONS}
-        setFilterValue={setCategoriesFilter}
-        filterValue={categoriesFilter}
+        setFilterValue={setStatusFilter}
+        filterValue={statusFilter}
       />
       <DataTableResetFilter
         isFilterActive={isAnyFilterActive}

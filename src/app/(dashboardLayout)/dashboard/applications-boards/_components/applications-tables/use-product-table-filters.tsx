@@ -5,14 +5,10 @@ import { useQueryState } from 'nuqs';
 import { useCallback, useMemo } from 'react';
 
 export const STATUS_OPTIONS = [
-  { value: 'Electronics', label: 'Electronics' },
-  { value: 'Furniture', label: 'Furniture' },
-  { value: 'Clothing', label: 'Clothing' },
-  { value: 'Toys', label: 'Toys' },
-  { value: 'Groceries', label: 'Groceries' },
-  { value: 'Books', label: 'Books' },
-  { value: 'Jewelry', label: 'Jewelry' },
-  { value: 'Beauty Products', label: 'Beauty Products' },
+  { value: 'Interview Scheduled', label: 'Interview Scheduled' },
+  { value: 'Applied', label: 'Applied' },
+  { value: 'Rejected', label: 'Rejected' },
+  { value: 'Under Review', label: 'Under Review' },
 ];
 export function useProductTableFilters() {
   const [searchQuery, setSearchQuery] = useQueryState(
@@ -22,8 +18,8 @@ export function useProductTableFilters() {
       .withDefault('')
   );
 
-  const [categoriesFilter, setCategoriesFilter] = useQueryState(
-    'categories',
+  const [statusFilter, setStatusFilter] = useQueryState(
+    'status',
     searchParams.status.withOptions({ shallow: false }).withDefault('')
   );
 
@@ -34,14 +30,14 @@ export function useProductTableFilters() {
 
   const resetFilters = useCallback(() => {
     setSearchQuery(null);
-    setCategoriesFilter(null);
+    setStatusFilter(null);
 
     setPage(1);
-  }, [setSearchQuery, setCategoriesFilter, setPage]);
+  }, [setSearchQuery, setStatusFilter, setPage]);
 
   const isAnyFilterActive = useMemo(() => {
-    return !!searchQuery || !!categoriesFilter;
-  }, [searchQuery, categoriesFilter]);
+    return !!searchQuery || !!statusFilter;
+  }, [searchQuery, statusFilter]);
 
   return {
     searchQuery,
@@ -50,7 +46,7 @@ export function useProductTableFilters() {
     setPage,
     resetFilters,
     isAnyFilterActive,
-    categoriesFilter,
-    setCategoriesFilter,
+    statusFilter,
+    setStatusFilter,
   };
 }
