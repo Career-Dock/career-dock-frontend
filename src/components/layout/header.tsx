@@ -1,11 +1,10 @@
 import React from 'react';
 import { SidebarTrigger } from '../ui/sidebar';
 import { Separator } from '../ui/separator';
-
 import ThemeToggle from './theme-toggle/theme-toggle';
 import { Breadcrumbs } from '../breadcrumbs';
 import SearchInput from '../search-input';
-import { UserNav } from '../user-nav';
+import { SignedIn, UserButton } from '@clerk/nextjs';
 
 export default function Header() {
   return (
@@ -20,7 +19,9 @@ export default function Header() {
         <div className="hidden md:flex">
           <SearchInput />
         </div>
-        <UserNav />
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
         <ThemeToggle />
       </div>
     </header>
