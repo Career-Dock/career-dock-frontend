@@ -24,13 +24,20 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const { fetchData } = useFetch();
 
   const onConfirm = async () => {
-    await fetchData(
-      `applications/${data._id}`,
-      'DELETE',
-      {},
-      `/dashboard/applications-boards/${data.applicationGroupId}/applications`
-    );
-    setOpen(false);
+    try {
+      setLoading(true);
+      await fetchData(
+        `applications/${data._id}`,
+        'DELETE',
+        {},
+        `/dashboard/applications-boards/${data.applicationGroupId}/applications`
+      );
+    } catch (error) {
+      console.error('Error deleting application:', error);
+    } finally {
+      setLoading(false);
+      setOpen(false);
+    }
   };
 
   return (

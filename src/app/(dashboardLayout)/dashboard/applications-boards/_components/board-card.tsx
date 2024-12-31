@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
-import { format } from "date-fns";
-import Link from "next/link";
+import { useState } from 'react';
+import { MoreHorizontal, Pencil, Trash2, Loader2 } from 'lucide-react';
+import { format } from 'date-fns';
+import Link from 'next/link';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,8 +20,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
+} from '@/components/ui/dropdown-menu';
+import { Badge } from '@/components/ui/badge';
 import {
   Dialog,
   DialogContent,
@@ -29,10 +29,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -42,8 +42,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
-import { useFetch } from "@/utils/useFetch";
+} from '@/components/ui/alert-dialog';
+import { useFetch } from '@/utils/useFetch';
 
 interface BoardCardProps {
   board: {
@@ -56,48 +56,62 @@ interface BoardCardProps {
     totalApplications: number;
     activeApplications: number;
   };
-  viewMode: "grid" | "list";
+  viewMode: 'grid' | 'list';
 }
 
 export function BoardCard({ board, viewMode }: BoardCardProps) {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [editedBoard, setEditedBoard] = useState(board);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false); // Added state for edit loading
   const { fetchData, isLoading, error } = useFetch();
 
   const handleEditSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    await fetchData(
-      `application-groups/${board._id}`,
-      "PATCH",
-      editedBoard,
-      "dashboard/applications-boards"
-    );
-    // Here you would typically send the editedBoard data to your backend
-    setIsEditDialogOpen(false);
+    setIsEditing(true); // Set loading state to true
+    try {
+      await fetchData(
+        `application-groups/${board._id}`,
+        'PATCH',
+        editedBoard,
+        'dashboard/applications-boards'
+      );
+    } catch (error) {
+      console.error('Error updating board:', error);
+    } finally {
+      setIsEditing(false); // Set loading state to false
+      setIsEditDialogOpen(false);
+    }
   };
 
   const handleDeleteConfirm = async () => {
-    // Here you would typically send a delete request to your backend
-    await fetchData(
-      `application-groups/${board._id}`,
-      "DELETE",
-      editedBoard,
-      "/dashboard/applications-boards"
-    );
-    setIsDeleteDialogOpen(false);
+    setIsDeleting(true);
+    try {
+      await fetchData(
+        `application-groups/${board._id}`,
+        'DELETE',
+        editedBoard,
+        '/dashboard/applications-boards'
+      );
+    } catch (error) {
+      console.error('Error deleting board:', error);
+    } finally {
+      setIsDeleting(false);
+      setIsDeleteDialogOpen(false);
+    }
   };
 
   const renderEditDialog = () => (
     <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[600px]">
         <DialogHeader>
           <DialogTitle>Edit Board</DialogTitle>
           <DialogDescription>
             Make changes to your board here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleEditSubmit}>
+        <form onSubmit={handleEditSubmit} className=" border p-6 rounded-md">
           <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
               <Label htmlFor="name" className="text-right">
@@ -143,7 +157,18 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
             </div>
           </div>
           <DialogFooter>
-            <Button type="submit">Save changes</Button>
+            <Button type="submit" disabled={isEditing}>
+              {' '}
+              {/* Updated button */}
+              {isEditing ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                'Save changes'
+              )}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>
@@ -162,21 +187,32 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDeleteConfirm}>
-            Delete
+          <AlertDialogAction
+            onClick={handleDeleteConfirm}
+            className="bg-rose-600 hover:bg-rose-700"
+            disabled={isDeleting}
+          >
+            {isDeleting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Deleting...
+              </>
+            ) : (
+              'Delete'
+            )}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
 
-  if (viewMode === "list") {
+  if (viewMode === 'list') {
     return (
       <Card className="group relative overflow-hidden transition-all hover:shadow-md">
         <div className="flex items-start p-4 gap-4">
           <div className="w-24 h-24 flex-shrink-0 rounded-md overflow-hidden">
             <img
-              src={board?.image || "/board.jpg"}
+              src={board?.image || '/board.jpg'}
               alt={board?.name}
               className="w-full h-full object-cover"
             />
@@ -186,7 +222,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
             <CardHeader className="p-0">
               <CardTitle className="line-clamp-1">{board?.name}</CardTitle>
               <CardDescription className="line-clamp-2 mt-0.5">
-                {board?.description || "No description"}
+                {board?.description || 'No description'}
               </CardDescription>
             </CardHeader>
 
@@ -200,7 +236,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
                 </Badge>
               </div>
               <div className="mt-2 text-sm text-muted-foreground">
-                Last updated {format(board?.updatedAt, "MMM d, yyyy")}
+                Last updated {format(board?.updatedAt, 'MMM d, yyyy')}
               </div>
             </CardContent>
           </div>
@@ -281,7 +317,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
         </div>
         <div className="w-full h-[180px] bg-muted overflow-hidden group-hover:opacity-90 transition-opacity rounded-t-lg">
           <img
-            src={board?.image || "/board.jpg"}
+            src={board?.image || '/board.jpg'}
             alt={board?.name}
             className="w-full h-full object-cover"
           />
@@ -289,7 +325,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
         <div className="p-5 pt-3">
           <CardTitle className="line-clamp-1">{board?.name}</CardTitle>
           <CardDescription className="line-clamp-2 mt-0.5">
-            {board?.description || "No description"}
+            {board?.description || 'No description'}
           </CardDescription>
         </div>
       </CardHeader>
@@ -303,7 +339,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
           </Badge>
         </div>
         <div className="mt-2 text-sm text-muted-foreground">
-          Last updated {format(board?.updatedAt, "MMM d, yyyy")}
+          Last updated {format(board?.updatedAt, 'MMM d, yyyy')}
         </div>
       </CardContent>
       <Link

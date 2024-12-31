@@ -30,7 +30,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Check, ChevronsUpDown } from 'lucide-react';
+import { Check, ChevronsUpDown, Loader2Icon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@clerk/nextjs';
 import { useParams } from 'next/navigation';
@@ -147,8 +147,22 @@ export default function ApplicationForm({
     <Card className="mx-auto w-full">
       <CardHeader className="flex justify-between flex-row">
         <CardTitle className="text-2xl font-bold">{pageTitle}</CardTitle>
-        <Button onClick={form.handleSubmit(onSubmit)} disabled={isLoading}>
-          {initialData ? 'Update Application' : 'Submit Application'}
+
+        <Button
+          type="submit"
+          disabled={isLoading}
+          onClick={form.handleSubmit(onSubmit)}
+        >
+          {isLoading ? (
+            <>
+              <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+              {initialData ? 'Updating...' : 'Submitting...'}
+            </>
+          ) : initialData ? (
+            'Update Application'
+          ) : (
+            'Submit Application'
+          )}
         </Button>
       </CardHeader>
       <CardContent>
@@ -569,12 +583,22 @@ export default function ApplicationForm({
                 />
               </div>
             </div>
+
             <Button
               type="submit"
-              onClick={form.handleSubmit(onSubmit)}
               disabled={isLoading}
+              onClick={form.handleSubmit(onSubmit)}
             >
-              {initialData ? 'Update Application' : 'Submit Application'}
+              {isLoading ? (
+                <>
+                  <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
+                  {initialData ? 'Updating...' : 'Submitting...'}
+                </>
+              ) : initialData ? (
+                'Update Application'
+              ) : (
+                'Submit Application'
+              )}
             </Button>
           </form>
         </Form>
