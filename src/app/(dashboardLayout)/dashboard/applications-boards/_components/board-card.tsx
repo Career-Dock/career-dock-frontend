@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
-import { format } from 'date-fns';
-import Link from 'next/link';
+import { useState } from "react";
+import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { format } from "date-fns";
+import Link from "next/link";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,8 +20,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Badge } from '@/components/ui/badge';
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -29,10 +29,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -42,8 +42,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { useFetch } from '@/utils/useFetch';
+} from "@/components/ui/alert-dialog";
+import { useFetch } from "@/utils/useFetch";
 
 interface BoardCardProps {
   board: {
@@ -56,7 +56,7 @@ interface BoardCardProps {
     totalApplications: number;
     activeApplications: number;
   };
-  viewMode: 'grid' | 'list';
+  viewMode: "grid" | "list";
 }
 
 export function BoardCard({ board, viewMode }: BoardCardProps) {
@@ -67,26 +67,23 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
 
   const handleEditSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    const result = await fetchData(
+    await fetchData(
       `application-groups/${board._id}`,
-      'PATCH',
+      "PATCH",
       editedBoard,
-      'dashboard/applications-boards'
+      "dashboard/applications-boards"
     );
     // Here you would typically send the editedBoard data to your backend
-    console.log('Submitting edited board:', editedBoard);
     setIsEditDialogOpen(false);
   };
 
   const handleDeleteConfirm = async () => {
     // Here you would typically send a delete request to your backend
-    console.log('Deleting board:', board._id);
-    const result = await fetchData(
+    await fetchData(
       `application-groups/${board._id}`,
-      'DELETE',
+      "DELETE",
       editedBoard,
-      '/dashboard/applications-boards'
+      "/dashboard/applications-boards"
     );
     setIsDeleteDialogOpen(false);
   };
@@ -173,13 +170,13 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
     </AlertDialog>
   );
 
-  if (viewMode === 'list') {
+  if (viewMode === "list") {
     return (
       <Card className="group relative overflow-hidden transition-all hover:shadow-md">
         <div className="flex items-start p-4 gap-4">
           <div className="w-24 h-24 flex-shrink-0 rounded-md overflow-hidden">
             <img
-              src={board?.image || '/board.jpg'}
+              src={board?.image || "/board.jpg"}
               alt={board?.name}
               className="w-full h-full object-cover"
             />
@@ -189,7 +186,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
             <CardHeader className="p-0">
               <CardTitle className="line-clamp-1">{board?.name}</CardTitle>
               <CardDescription className="line-clamp-2 mt-0.5">
-                {board?.description || 'No description'}
+                {board?.description || "No description"}
               </CardDescription>
             </CardHeader>
 
@@ -203,7 +200,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
                 </Badge>
               </div>
               <div className="mt-2 text-sm text-muted-foreground">
-                Last updated {format(board?.updatedAt, 'MMM d, yyyy')}
+                Last updated {format(board?.updatedAt, "MMM d, yyyy")}
               </div>
             </CardContent>
           </div>
@@ -284,7 +281,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
         </div>
         <div className="w-full h-[180px] bg-muted overflow-hidden group-hover:opacity-90 transition-opacity rounded-t-lg">
           <img
-            src={board?.image || '/board.jpg'}
+            src={board?.image || "/board.jpg"}
             alt={board?.name}
             className="w-full h-full object-cover"
           />
@@ -292,7 +289,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
         <div className="p-5 pt-3">
           <CardTitle className="line-clamp-1">{board?.name}</CardTitle>
           <CardDescription className="line-clamp-2 mt-0.5">
-            {board?.description || 'No description'}
+            {board?.description || "No description"}
           </CardDescription>
         </div>
       </CardHeader>
@@ -306,7 +303,7 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
           </Badge>
         </div>
         <div className="mt-2 text-sm text-muted-foreground">
-          Last updated {format(board?.updatedAt, 'MMM d, yyyy')}
+          Last updated {format(board?.updatedAt, "MMM d, yyyy")}
         </div>
       </CardContent>
       <Link

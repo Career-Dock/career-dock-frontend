@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
-import { Plus, Search, Grid, List } from 'lucide-react';
-import { useSearchParams, useRouter, usePathname } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { useState, useMemo } from "react";
+import { Plus, Search, Grid, List } from "lucide-react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogContent,
@@ -13,19 +13,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+} from "@/components/ui/select";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import {
   Form,
   FormControl,
@@ -34,43 +34,43 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { useFetch } from '@/utils/useFetch';
-import { debounce } from '@/utils/debounce';
+} from "@/components/ui/form";
+import { useFetch } from "@/utils/useFetch";
+import { debounce } from "@/utils/debounce";
 
 export const boardSchema = z.object({
   name: z.string().min(1, {
-    message: 'Board name is required.',
+    message: "Board name is required.",
   }),
   description: z.string().optional(),
-  image: z.string().url().optional().or(z.literal('')),
+  image: z.string().url().optional().or(z.literal("")),
 });
 
 export function BoardsHeader() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-  const viewMode = searchParams.get('view') || 'grid';
-  const search = searchParams.get('search') || '';
-  const sort = searchParams.get('sort') || 'newest';
+  const viewMode = searchParams.get("view") || "grid";
+  const search = searchParams.get("search") || "";
+  const sort = searchParams.get("sort") || "newest";
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState(search);
   const { fetchData, isLoading, error } = useFetch();
   const form = useForm<z.infer<typeof boardSchema>>({
     resolver: zodResolver(boardSchema),
     defaultValues: {
-      name: '',
-      description: '',
-      image: '',
+      name: "",
+      description: "",
+      image: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof boardSchema>) => {
-    const result = await fetchData(
-      'application-groups',
-      'POST',
+    await fetchData(
+      "application-groups",
+      "POST",
       values,
-      '/dashboard/applications-boards'
+      "/dashboard/applications-boards"
     );
     form.reset();
     setIsOpen(false);
@@ -86,7 +86,7 @@ export function BoardsHeader() {
     () =>
       debounce((value: string) => {
         const params = new URLSearchParams(searchParams.toString());
-        params.set('search', value);
+        params.set("search", value);
         router.push(`${pathname}?${params.toString()}`, { scroll: false });
       }, 300),
     [searchParams, router, pathname]
@@ -99,7 +99,7 @@ export function BoardsHeader() {
 
   const handleSort = (value: string) => {
     const params = new URLSearchParams(searchParams.toString());
-    params.set('sort', value);
+    params.set("sort", value);
     router.push(`${pathname}?${params.toString()}`);
   };
 
@@ -183,7 +183,7 @@ export function BoardsHeader() {
                     Cancel
                   </Button>
                   <Button type="submit" disabled={isLoading}>
-                    {isLoading ? 'Creating...' : 'Create Board'}
+                    {isLoading ? "Creating..." : "Create Board"}
                   </Button>
                 </DialogFooter>
               </form>
@@ -216,21 +216,21 @@ export function BoardsHeader() {
           </Select>
           <div className="flex items-center rounded-md border bg-muted">
             <Button
-              variant={viewMode === 'grid' ? 'secondary' : 'ghost'}
+              variant={viewMode === "grid" ? "secondary" : "ghost"}
               size="sm"
               className="px-2.5"
               onClick={() => {
-                router.push(`${pathname}?${createQueryString('view', 'grid')}`);
+                router.push(`${pathname}?${createQueryString("view", "grid")}`);
               }}
             >
               <Grid className="h-4 w-4" />
             </Button>
             <Button
-              variant={viewMode === 'list' ? 'secondary' : 'ghost'}
+              variant={viewMode === "list" ? "secondary" : "ghost"}
               size="sm"
               className="px-2.5"
               onClick={() => {
-                router.push(`${pathname}?${createQueryString('view', 'list')}`);
+                router.push(`${pathname}?${createQueryString("view", "list")}`);
               }}
             >
               <List className="h-4 w-4" />
