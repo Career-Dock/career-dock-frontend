@@ -93,9 +93,11 @@ const formSchema = z.object({
 export default function ApplicationForm({
   initialData,
   pageTitle,
+  onSubmitSuccess,
 }: {
   initialData?: z.infer<typeof formSchema> | null;
   pageTitle: string;
+  onSubmitSuccess?: () => void;
 }) {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -126,7 +128,15 @@ export default function ApplicationForm({
 
     console.log('values:', values);
     try {
-      const result = await fetchData('applications', 'POST', values);
+      const result = await fetchData(
+        'applications',
+        'POST',
+        values,
+        '/dashboard/applications-boards/[boardId]/applications'
+      );
+      if (onSubmitSuccess) {
+        onSubmitSuccess();
+      }
       console.log('API Response:', result);
     } catch (error) {
       console.error('Error creating application:', error);
@@ -138,7 +148,7 @@ export default function ApplicationForm({
       <CardHeader className="flex justify-between flex-row">
         <CardTitle className="text-2xl font-bold">{pageTitle}</CardTitle>
         <Button onClick={form.handleSubmit(onSubmit)} disabled={isLoading}>
-          Submit Application
+          {initialData ? 'Update Application' : 'Submit Application'}
         </Button>
       </CardHeader>
       <CardContent>
@@ -522,7 +532,7 @@ export default function ApplicationForm({
                     <FormItem>
                       <FormLabel>Interview Date</FormLabel>
                       <FormControl>
-                        <Input type="date" {...field} required />
+                        <Input type="date" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -535,7 +545,7 @@ export default function ApplicationForm({
                     <FormItem>
                       <FormLabel>Interview Time</FormLabel>
                       <FormControl>
-                        <Input type="time" {...field} required />
+                        <Input type="time" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -551,7 +561,6 @@ export default function ApplicationForm({
                         <Input
                           placeholder="Enter interview location"
                           {...field}
-                          required
                         />
                       </FormControl>
                       <FormMessage />
@@ -560,7 +569,13 @@ export default function ApplicationForm({
                 />
               </div>
             </div>
-            <Button type="submit">Submit Application</Button>
+            <Button
+              type="submit"
+              onClick={form.handleSubmit(onSubmit)}
+              disabled={isLoading}
+            >
+              {initialData ? 'Update Application' : 'Submit Application'}
+            </Button>
           </form>
         </Form>
       </CardContent>

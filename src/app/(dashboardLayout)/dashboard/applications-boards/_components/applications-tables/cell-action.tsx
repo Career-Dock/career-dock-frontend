@@ -1,19 +1,18 @@
-"use client";
-import { AlertModal } from "@/components/modal/alert-modal";
-import { Button } from "@/components/ui/button";
+'use client';
+import { AlertModal } from '@/components/modal/alert-modal';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Product } from "@/constants/data";
-import { TApplication } from "@/types/application";
-import { useFetch } from "@/utils/useFetch";
-import { Edit, MoreHorizontal, Trash } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+} from '@/components/ui/dropdown-menu';
+import { TApplication } from '@/types/application';
+import { useFetch } from '@/utils/useFetch';
+import { Edit, MoreHorizontal, Trash } from 'lucide-react';
+import { useState } from 'react';
+import UpdateApplicationButton from '../update-application-button';
 
 interface CellActionProps {
   data: TApplication;
@@ -22,13 +21,12 @@ interface CellActionProps {
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const router = useRouter();
   const { fetchData } = useFetch();
 
   const onConfirm = async () => {
     await fetchData(
       `applications/${data._id}`,
-      "DELETE",
+      'DELETE',
       {},
       `/dashboard/applications-boards/${data.applicationGroupId}/applications`
     );
@@ -52,12 +50,11 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
-          <DropdownMenuItem
-            onClick={() => router.push(`/dashboard/product/${data._id}`)}
-          >
-            <Edit className="mr-2 h-4 w-4" /> Update
-          </DropdownMenuItem>
+          <UpdateApplicationButton application={data}>
+            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+              <Edit className="mr-2 h-4 w-4" /> Update
+            </DropdownMenuItem>
+          </UpdateApplicationButton>
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="mr-2 h-4 w-4" /> Delete
           </DropdownMenuItem>

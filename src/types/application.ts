@@ -1,18 +1,18 @@
 export type TInterviewDetails = {
-  date: string;
-  time: string;
-  location: string;
+  date?: string;
+  time?: string;
+  location?: string;
 };
 
 export type TApplication = {
   _id?: string;
-  clerkUserId?: string;
+  clerkUserId: string;
   applicationGroupId?: string;
   jobTitle: string;
   jobRole: string;
   appliedVia?: string;
   country?: string;
-  companyName?: string;
+  companyName: string;
   companyEmail?: string;
   companyWebsite?: string;
   companyPhoneNumber?: string;
@@ -21,10 +21,14 @@ export type TApplication = {
   jobType: 'remote' | 'onsite' | 'hybrid';
   status:
     | 'Applied'
-    | 'Interview Scheduled'
     | 'Rejected'
-    | 'Under Review'
-    | string;
+    | 'Under_Review'
+    | 'Task_Received'
+    | 'Task_Ongoing'
+    | 'Task_Submitted'
+    | 'Interview_Scheduled'
+    | 'Offer_Received'
+    | 'Offer_Accepted';
   appliedDate?: Date;
   interviewDetails?: TInterviewDetails;
   notes?: string;
