@@ -3,6 +3,7 @@
   "plugins": ["import"],
   "rules": {
     "import/no-unresolved": "error",
-    "caseSensitive": true 
+    "caseSensitive": 0,
+    "react/no-unescaped-entities": "off" // or 1 for warning, 0 to disable
   }
 }

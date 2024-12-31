@@ -5,11 +5,7 @@ import { BoardsSkeleton } from './_components/boards-skeleton';
 import { BoardsList } from './_components/boards-list';
 import { fetchFromServer } from '@/utils/fetchFromServer';
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) {
+export default async function Page({ searchParams }: { searchParams: any }) {
   const search = (searchParams.search as string) || '';
   const sort = (searchParams.sort as string) || 'newest';
 

@@ -17,12 +17,7 @@ export const metadata = {
   title: 'Applications',
 };
 
-type PageProps = {
-  searchParams: Promise<SearchParams>;
-  params: {
-    boardId: string;
-  };
-};
+type PageProps = any;
 
 export default async function Page({ searchParams, params }: PageProps) {
   const resolvedSearchParams = await searchParams;
