@@ -1,7 +1,8 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { BoardCard } from './board-card';
+import { useEffect, useMemo, useState } from 'react';
 
 interface Board {
   _id: string;
@@ -17,11 +18,50 @@ interface Board {
 interface BoardsListProps {
   initialBoards: Board[];
   allApplications: Board;
+  search: string;
+  sort: string;
 }
 
-export function BoardsList({ initialBoards, allApplications }: BoardsListProps) {
+export function BoardsList({
+  initialBoards,
+  allApplications,
+  search,
+  sort,
+}: BoardsListProps) {
+  const [boards, setBoards] = useState(initialBoards);
+  const router = useRouter();
   const searchParams = useSearchParams();
   const viewMode = (searchParams.get('view') as 'grid' | 'list') || 'grid';
+
+  const filteredAndSortedBoards = useMemo(() => {
+    const filteredBoards = initialBoards.filter(
+      (board) =>
+        board.name.toLowerCase().includes(search.toLowerCase()) ||
+        board.description.toLowerCase().includes(search.toLowerCase())
+    );
+
+    return filteredBoards.sort((a, b) => {
+      switch (sort) {
+        case 'oldest':
+          return (
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+          );
+        case 'alphabetical':
+          return a.name.localeCompare(b.name);
+        case 'applications':
+          return b.totalApplications - a.totalApplications;
+        case 'newest':
+        default:
+          return (
+            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+          );
+      }
+    });
+  }, [initialBoards, search, sort]);
+
+  useEffect(() => {
+    setBoards(filteredAndSortedBoards);
+  }, [filteredAndSortedBoards]);
 
   return (
     <div
@@ -32,7 +72,7 @@ export function BoardsList({ initialBoards, allApplications }: BoardsListProps) 
       }`}
     >
       <BoardCard board={allApplications} viewMode={viewMode} />
-      {initialBoards?.map((board) => (
+      {boards?.map((board) => (
         <BoardCard key={board._id} board={board} viewMode={viewMode} />
       ))}
     </div>
