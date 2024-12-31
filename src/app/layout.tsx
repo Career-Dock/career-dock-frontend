@@ -4,6 +4,8 @@ import './globals.css';
 import Providers from '@/lib/providers/Providers';
 import { Toaster } from 'react-hot-toast';
 import NextTopLoader from 'nextjs-toploader';
+import { Suspense } from 'react';
+import { GlobalLoading } from '@/components/global-loading';
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -23,9 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className=" bg-[#fafbfc]">
       <body className={poppins.className}>
-        <NextTopLoader showSpinner={false} color="hsl(221.2 83.2% 53.3%)" />
-        <Toaster />
-        <Providers>{children}</Providers>
+        <Suspense fallback={<GlobalLoading />}>
+          <NextTopLoader showSpinner={false} color="hsl(221.2 83.2% 53.3%)" />
+          <Toaster />
+          <Providers>{children}</Providers>
+        </Suspense>
       </body>
     </html>
   );
