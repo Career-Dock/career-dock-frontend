@@ -5,10 +5,15 @@ import { useQueryState } from 'nuqs';
 import { useCallback, useMemo } from 'react';
 
 export const STATUS_OPTIONS = [
-  { value: 'Interview Scheduled', label: 'Interview Scheduled' },
+  { value: 'Interview_Scheduled', label: 'Interview Scheduled' },
   { value: 'Applied', label: 'Applied' },
   { value: 'Rejected', label: 'Rejected' },
-  { value: 'Under Review', label: 'Under Review' },
+  { value: 'Under_Review', label: 'Under Review' },
+  { value: 'Task_Received', label: 'Task Received' },
+  { value: 'Task_Ongoing', label: 'Task Ongoing' },
+  { value: 'Task_Submitted', label: 'Task Submitted' },
+  { value: 'Offer_Received', label: 'Offer Received' },
+  { value: 'Offer_Accepted', label: 'Offer Accepted' },
 ];
 
 export const JOB_TYPE_OPTIONS = [

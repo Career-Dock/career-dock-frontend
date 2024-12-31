@@ -1,8 +1,5 @@
-import { SearchParams } from 'nuqs/server';
 import { Suspense } from 'react';
-
 import PageContainer from '@/components/page-container';
-
 import { BoardsHeader } from './_components/boards-header';
 import { BoardsSkeleton } from './_components/boards-skeleton';
 import { BoardsList } from './_components/boards-list';

@@ -23,13 +23,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from '@/components/ui/command';
+
 import {
   Popover,
   PopoverContent,
@@ -41,20 +35,7 @@ import { cn } from '@/lib/utils';
 import { useAuth } from '@clerk/nextjs';
 import { useParams } from 'next/navigation';
 import { useFetch } from '@/utils/useFetch';
-
-const countries = [
-  { value: 'US', label: 'United States' },
-  { value: 'CA', label: 'Canada' },
-  { value: 'GB', label: 'United Kingdom' },
-  { value: 'DE', label: 'Germany' },
-  { value: 'FR', label: 'France' },
-  { value: 'JP', label: 'Japan' },
-  { value: 'AU', label: 'Australia' },
-  { value: 'IN', label: 'India' },
-  { value: 'CN', label: 'China' },
-  { value: 'BR', label: 'Brazil' },
-  // Add more countries as needed
-];
+import { countries } from '@/lib/countries-data';
 
 const formSchema = z.object({
   clerkUserId: z.string().optional(),
@@ -62,10 +43,7 @@ const formSchema = z.object({
   jobTitle: z
     .string()
     .min(2, { message: 'Job title must be at least 2 characters.' }),
-  jobRole: z
-    .string()
-    .min(2, { message: 'Job role must be at least 2 characters.' }),
-  companyName: z.string().optional(),
+  companyName: z.string().min(2, { message: 'Company name is required.' }),
   companyEmail: z
     .string()
     .email({ message: 'Invalid email address.' })
@@ -89,9 +67,14 @@ const formSchema = z.object({
   jobType: z.enum(['remote', 'onsite', 'hybrid']),
   status: z.enum([
     'Applied',
-    'Interview Scheduled',
+    'Interview_Scheduled',
     'Rejected',
-    'Under Review',
+    'Under_Review',
+    'Task_Received',
+    'Task_Ongoing',
+    'Task_Submitted',
+    'Offer_Received',
+    'Offer_Accepted',
   ]),
   appliedDate: z.date().default(() => new Date()),
   interviewDetails: z
@@ -143,16 +126,6 @@ export default function ApplicationForm({
 
     console.log('values:', values);
     try {
-      // const response = await fetch(
-      //   'http://localhost:5000/api/v1/applications',
-      //   {
-      //     method: 'POST',
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     body: JSON.stringify(values),
-      //   }
-      // );
       const result = await fetchData('applications', 'POST', values);
       console.log('API Response:', result);
     } catch (error) {
@@ -182,21 +155,6 @@ export default function ApplicationForm({
                     </FormLabel>
                     <FormControl>
                       <Input placeholder="Enter job title" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="jobRole"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      Job Role <span className="text-red-500">*</span>
-                    </FormLabel>
-                    <FormControl>
-                      <Input placeholder="Enter job role" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -359,12 +317,27 @@ export default function ApplicationForm({
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="Applied">Applied</SelectItem>
-                        <SelectItem value="Interview Scheduled">
+                        <SelectItem value="Interview_Scheduled">
                           Interview Scheduled
                         </SelectItem>
                         <SelectItem value="Rejected">Rejected</SelectItem>
-                        <SelectItem value="Under Review">
+                        <SelectItem value="Under_Review">
                           Under Review
+                        </SelectItem>
+                        <SelectItem value="Task_Received">
+                          Task Received
+                        </SelectItem>
+                        <SelectItem value="Task_Ongoing">
+                          Task Ongoing
+                        </SelectItem>
+                        <SelectItem value="Task_Submitted">
+                          Task Submitted
+                        </SelectItem>
+                        <SelectItem value="Offer_Received">
+                          Offer Received
+                        </SelectItem>
+                        <SelectItem value="Offer_Accepted">
+                          Offer Accepted
                         </SelectItem>
                       </SelectContent>
                     </Select>
@@ -372,6 +345,7 @@ export default function ApplicationForm({
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name="jobPostingURL"
@@ -413,7 +387,9 @@ export default function ApplicationForm({
                 name="companyName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Company Name</FormLabel>
+                    <FormLabel>
+                      Company Name <span className="text-red-500">*</span>
+                    </FormLabel>
                     <FormControl>
                       <Input placeholder="Enter company name" {...field} />
                     </FormControl>
@@ -493,63 +469,35 @@ export default function ApplicationForm({
                   </FormItem>
                 )}
               />
+
+              <FormField
+                control={form.control}
+                name="resumeURL"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Resume URL</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter resume URL" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="salaryRange"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Salary Range</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter salary range" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
 
-            <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Interview Details</h3>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <FormField
-                  control={form.control}
-                  name="interviewDetails.date"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        Interview Date <span className="text-red-500">*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input type="date" {...field} required />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="interviewDetails.time"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        Interview Time <span className="text-red-500">*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input type="time" {...field} required />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="interviewDetails.location"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>
-                        Interview Location{' '}
-                        <span className="text-red-500">*</span>
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Enter interview location"
-                          {...field}
-                          required
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
             <FormField
               control={form.control}
               name="notes"
@@ -564,32 +512,54 @@ export default function ApplicationForm({
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="resumeURL"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Resume URL</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter resume URL" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="salaryRange"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Salary Range</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Enter salary range" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Interview Details</h3>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                <FormField
+                  control={form.control}
+                  name="interviewDetails.date"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Interview Date</FormLabel>
+                      <FormControl>
+                        <Input type="date" {...field} required />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="interviewDetails.time"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Interview Time</FormLabel>
+                      <FormControl>
+                        <Input type="time" {...field} required />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="interviewDetails.location"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Interview Location </FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter interview location"
+                          {...field}
+                          required
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+            </div>
             <Button type="submit">Submit Application</Button>
           </form>
         </Form>
