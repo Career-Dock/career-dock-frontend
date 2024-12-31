@@ -23,7 +23,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-
 import {
   Popover,
   PopoverContent,
@@ -38,6 +37,7 @@ import { useFetch } from '@/utils/useFetch';
 import { countries } from '@/lib/countries-data';
 
 const formSchema = z.object({
+  _id: z.string().optional(),
   clerkUserId: z.string().optional(),
   applicationGroupId: z.string().optional(),
   jobTitle: z
@@ -61,7 +61,6 @@ const formSchema = z.object({
     'social_media',
     'other',
   ]),
-
   jobPortal: z.string().optional(),
   address: z.string().optional(),
   jobType: z.enum(['remote', 'onsite', 'hybrid']),
@@ -76,7 +75,7 @@ const formSchema = z.object({
     'Offer_Received',
     'Offer_Accepted',
   ]),
-  appliedDate: z.date().default(() => new Date()),
+  appliedDate: z.string(),
   interviewDetails: z
     .object({
       date: z.string().optional(),
@@ -101,45 +100,70 @@ export default function ApplicationForm({
 }) {
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { userId } = useAuth();
   const params = useParams<{ boardId: string }>();
   const { fetchData, isLoading, error } = useFetch();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
-      jobType: 'remote',
-      status: 'Applied',
-      appliedDate: new Date(),
-      country: '',
-    },
+    defaultValues: initialData
+      ? {
+          ...initialData,
+          appliedDate: formatDateForInput(initialData.appliedDate),
+        }
+      : {
+          jobType: 'remote',
+          status: 'Applied',
+          appliedDate: formatDateForInput(new Date().toISOString()),
+          country: '',
+        },
   });
 
   const filteredCountries = countries.filter((country) =>
     country.label.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  function formatDateForInput(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toISOString().split('T')[0];
+  }
+
+  function formatDateForSubmission(dateString: string): string {
+    const date = new Date(dateString);
+    return date.toISOString();
+  }
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     if (!userId) {
       throw new Error('User not authenticated');
     }
 
-    values.applicationGroupId = params.boardId;
-
-    console.log('values:', values);
+    setIsSubmitting(true);
     try {
+      values.applicationGroupId = params.boardId;
+      values.appliedDate = formatDateForSubmission(values.appliedDate);
+
+      const endpoint = initialData
+        ? `applications/${initialData._id}`
+        : 'applications';
+      const method = initialData ? 'PATCH' : 'POST';
+
       const result = await fetchData(
-        'applications',
-        'POST',
+        endpoint,
+        method,
         values,
         '/dashboard/applications-boards/[boardId]/applications'
       );
+
       if (onSubmitSuccess) {
         onSubmitSuccess();
       }
       console.log('API Response:', result);
     } catch (error) {
-      console.error('Error creating application:', error);
+      console.error('Error submitting application:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   }
 
@@ -150,10 +174,10 @@ export default function ApplicationForm({
 
         <Button
           type="submit"
-          disabled={isLoading}
+          disabled={isSubmitting}
           onClick={form.handleSubmit(onSubmit)}
         >
-          {isLoading ? (
+          {isSubmitting ? (
             <>
               <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
               {initialData ? 'Updating...' : 'Submitting...'}
@@ -392,15 +416,7 @@ export default function ApplicationForm({
                       Applied Date <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        type="date"
-                        {...field}
-                        value={
-                          field.value instanceof Date
-                            ? field.value.toISOString().split('T')[0]
-                            : field.value
-                        }
-                      />
+                      <Input type="date" {...field} value={field.value} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -586,10 +602,10 @@ export default function ApplicationForm({
 
             <Button
               type="submit"
-              disabled={isLoading}
+              disabled={isSubmitting}
               onClick={form.handleSubmit(onSubmit)}
             >
-              {isLoading ? (
+              {isSubmitting ? (
                 <>
                   <Loader2Icon className="mr-2 h-4 w-4 animate-spin" />
                   {initialData ? 'Updating...' : 'Submitting...'}

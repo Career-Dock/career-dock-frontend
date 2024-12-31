@@ -28,7 +28,7 @@ export default function ApplicationsTableAction() {
   return (
     <div className="flex flex-wrap items-center gap-4">
       <DataTableSearch
-        searchKey="name"
+        searchKey="by title, company name, country"
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
         setPage={setPage}
