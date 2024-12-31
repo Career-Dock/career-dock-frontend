@@ -32,7 +32,7 @@ export default async function Page({ searchParams, params }: PageProps) {
   // This key is used for invoke suspense if any of the search params changed (used for filters).
   const key = serialize({ ...resolvedSearchParams });
 
-  const { boardId } = params;
+  const { boardId } = await params;
   console.log({ boardId });
 
   return (
