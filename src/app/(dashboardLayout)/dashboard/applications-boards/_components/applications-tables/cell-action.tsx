@@ -10,9 +10,16 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { TApplication } from '@/types/application';
 import { useFetch } from '@/utils/useFetch';
-import { Edit, MoreHorizontal, Trash } from 'lucide-react';
+import {
+  Edit,
+  MoreHorizontal,
+  PenBox,
+  ReceiptTextIcon,
+  Trash,
+} from 'lucide-react';
 import { useState } from 'react';
 import UpdateApplicationButton from '../update-application-button';
+import { useParams, useRouter } from 'next/navigation';
 
 interface CellActionProps {
   data: TApplication;
@@ -22,6 +29,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const { fetchData } = useFetch();
+  const router = useRouter();
+  const params = useParams();
+  const boardId = params.boardId;
 
   const onConfirm = async () => {
     try {
@@ -64,6 +74,15 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           </UpdateApplicationButton>
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="mr-2 h-4 w-4" /> Delete
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onClick={() =>
+              router.push(
+                `/dashboard/applications-boards/${boardId}/applications/${data._id}`
+              )
+            }
+          >
+            <ReceiptTextIcon className="mr-2 h-4 w-4" /> Details
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
