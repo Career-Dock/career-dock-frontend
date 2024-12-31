@@ -32,8 +32,8 @@ export default async function Page({ searchParams, params }: PageProps) {
   // This key is used for invoke suspense if any of the search params changed (used for filters).
   const key = serialize({ ...resolvedSearchParams });
 
-  const { boardId } = params;
-  console.log({boardId})
+  const { boardId } = await params;
+  console.log({ boardId });
 
   return (
     <PageContainer>
@@ -51,7 +51,7 @@ export default async function Page({ searchParams, params }: PageProps) {
         <ApplicationsTableAction />
         <Suspense
           key={key}
-          fallback={<DataTableSkeleton columnCount={5} rowCount={5} />}
+          fallback={<DataTableSkeleton columnCount={8} rowCount={8} />}
         >
           <ApplicationListingPage boardId={boardId} />
         </Suspense>

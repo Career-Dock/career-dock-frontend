@@ -3,6 +3,7 @@
 import { DataTableFilterBox } from '@/components/ui/table/data-table-filter-box';
 import { DataTableResetFilter } from '@/components/ui/table/data-table-reset-filter';
 import { DataTableSearch } from '@/components/ui/table/data-table-search';
+import { DateRangePicker } from '@/components/ui/date-range-picker';
 import {
   STATUS_OPTIONS,
   JOB_TYPE_OPTIONS,
@@ -13,14 +14,17 @@ export default function ApplicationsTableAction() {
   const {
     setStatusFilter,
     setJobTypeFilter,
+    setDateRangeFilter,
     jobTypeFilter,
     statusFilter,
+    dateRangeFilter,
     isAnyFilterActive,
     resetFilters,
     searchQuery,
     setPage,
     setSearchQuery,
   } = useProductTableFilters();
+
   return (
     <div className="flex flex-wrap items-center gap-4">
       <DataTableSearch
@@ -43,6 +47,7 @@ export default function ApplicationsTableAction() {
         setFilterValue={setJobTypeFilter}
         filterValue={jobTypeFilter}
       />
+      <DateRangePicker value={dateRangeFilter} onChange={setDateRangeFilter} />
       <DataTableResetFilter
         isFilterActive={isAnyFilterActive}
         onReset={resetFilters}

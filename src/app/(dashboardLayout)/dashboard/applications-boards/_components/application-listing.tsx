@@ -16,6 +16,7 @@ export default async function ApplicationListingPage({
   const pageLimit = searchParamsCache.get('limit') || 10; // Default to 10 items per page
   const status = searchParamsCache.get('status'); // Status filter
   const jobType = searchParamsCache.get('jobType'); // Job type filter
+  const dateRange = searchParamsCache.get('dateRange'); // Date range filter
 
   // Construct API query parameters
   const queryParams = new URLSearchParams({
@@ -23,6 +24,7 @@ export default async function ApplicationListingPage({
     ...(status && { status }),
     ...(boardId != 'all' && { applicationGroupId: boardId }),
     ...(jobType && { jobType }),
+    ...(dateRange && { dateRange }),
     page: String(page),
     limit: String(pageLimit),
   }).toString();
@@ -31,13 +33,11 @@ export default async function ApplicationListingPage({
     // Fetch data from the real API
     const response = await fetchFromServer(`/applications?${queryParams}`);
 
-    // console.log('response', response?.data);
-
     if (!response.success) {
       throw new Error(response.message || 'Failed to fetch data');
     }
 
-    //const { totalItems, items: products } = response; // Adjust keys based on your API's response structure
+    console.log('Data fetched:', response);
 
     const totalItems = response?.data?.count;
     const applications = response?.data?.applications;

@@ -11,6 +11,7 @@ export const searchParams = {
   q: parseAsString,
   status: parseAsString,
   jobType: parseAsString,
+  dateRange: parseAsString,
 };
 
 export const searchParamsCache = createSearchParamsCache(searchParams);

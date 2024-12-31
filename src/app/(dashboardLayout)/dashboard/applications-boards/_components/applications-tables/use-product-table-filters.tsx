@@ -40,6 +40,11 @@ export function useProductTableFilters() {
     searchParams.jobType.withOptions({ shallow: false }).withDefault('')
   );
 
+  const [dateRangeFilter, setDateRangeFilter] = useQueryState(
+    'dateRange',
+    searchParams.dateRange.withOptions({ shallow: false }).withDefault('')
+  );
+
   const [page, setPage] = useQueryState(
     'page',
     searchParams.page.withDefault(1)
@@ -49,12 +54,21 @@ export function useProductTableFilters() {
     setSearchQuery(null);
     setStatusFilter(null);
     setJobTypeFilter(null);
+    setDateRangeFilter(null);
     setPage(1);
-  }, [setSearchQuery, setStatusFilter, setPage, setJobTypeFilter]);
+  }, [
+    setSearchQuery,
+    setStatusFilter,
+    setJobTypeFilter,
+    setDateRangeFilter,
+    setPage,
+  ]);
 
   const isAnyFilterActive = useMemo(() => {
-    return !!searchQuery || !!statusFilter || !!jobTypeFilter;
-  }, [searchQuery, statusFilter, jobTypeFilter]);
+    return (
+      !!searchQuery || !!statusFilter || !!jobTypeFilter || !!dateRangeFilter
+    );
+  }, [searchQuery, statusFilter, jobTypeFilter, dateRangeFilter]);
 
   return {
     searchQuery,
@@ -67,5 +81,7 @@ export function useProductTableFilters() {
     setStatusFilter,
     jobTypeFilter,
     setJobTypeFilter,
+    dateRangeFilter,
+    setDateRangeFilter,
   };
 }
