@@ -1,6 +1,8 @@
 import {
   AlertTriangle,
   ArrowRight,
+  Briefcase,
+  Building,
   Check,
   ChevronLeft,
   ChevronRight,
@@ -22,6 +24,7 @@ import {
   MoreVertical,
   Pizza,
   Plus,
+  Rows3,
   Settings,
   SunMedium,
   Trash,
@@ -29,6 +32,7 @@ import {
   User,
   UserCircle2Icon,
   UserPen,
+  Users,
   UserX2Icon,
   X,
 } from 'lucide-react';
@@ -64,6 +68,10 @@ export const Icons = {
   sun: SunMedium,
   moon: Moon,
   laptop: Laptop,
+  briefcase: Briefcase,
+  company: Building,
+  users: Users,
+  lists: Rows3,
   gitHub: ({ ...props }: LucideProps) => (
     <svg
       aria-hidden="true"
