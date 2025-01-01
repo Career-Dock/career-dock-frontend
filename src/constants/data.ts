@@ -18,10 +18,31 @@ export const navItems: NavItem[] = [
     items: [], // No child items
   },
   {
+    title: 'Interviews & Tasks',
+    url: '#', // Placeholder as there is no direct link for the parent
+    icon: 'listTodo',
+    isActive: false,
+
+    items: [
+      {
+        title: 'Interviews List',
+        url: '/dashboard/interview-task-manager/interviews-list',
+        icon: 'lists',
+        shortcut: ['i', 'i'],
+      },
+      {
+        title: 'Tasks List',
+        url: '/dashboard/interview-task-manager/tasks-list',
+        icon: 'lists',
+        shortcut: ['t', 't'],
+      },
+    ],
+  },
+  {
     title: 'Job Network',
     url: '#', // Placeholder as there is no direct link for the parent
     icon: 'briefcase',
-    isActive: true,
+    isActive: false,
 
     items: [
       {
