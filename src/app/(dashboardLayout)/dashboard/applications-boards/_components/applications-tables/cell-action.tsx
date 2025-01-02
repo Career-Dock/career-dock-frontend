@@ -68,14 +68,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <UpdateApplicationButton application={data}>
-            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
-              <Edit className="mr-2 h-4 w-4" /> Update
-            </DropdownMenuItem>
-          </UpdateApplicationButton>
-          <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className="mr-2 h-4 w-4" /> Delete
-          </DropdownMenuItem>
           <DropdownMenuItem>
             <Link
               href={`/dashboard/applications-boards/${boardId}/applications/${data._id}`}
@@ -84,6 +76,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
               {' '}
               <ReceiptTextIcon className="mr-2 h-4 w-4" /> Details
             </Link>
+          </DropdownMenuItem>
+          <UpdateApplicationButton application={data}>
+            <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
+              <Edit className="mr-2 h-4 w-4" /> Update
+            </DropdownMenuItem>
+          </UpdateApplicationButton>
+          <DropdownMenuItem onClick={() => setOpen(true)}>
+            <Trash className="mr-2 h-4 w-4" /> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
