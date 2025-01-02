@@ -13,7 +13,7 @@ import {
   AlertCircle,
   Briefcase,
   Flag,
-  Link,
+  LinkIcon,
   FileCheck,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
@@ -26,6 +26,10 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { fetchFromServer } from '@/utils/fetchFromServer';
+import { TApplication } from '@/types/application';
+import Link from 'next/link';
+import UpdateApplicationButton from './update-application-button';
 
 // This would typically come from your API or database
 const application = {
@@ -92,7 +96,15 @@ function InfoItem({ icon: Icon, label, value, href }: any) {
   );
 }
 
-export default function ApplicationDetails() {
+export default async function ApplicationDetails({
+  applicationId,
+}: {
+  applicationId: string;
+}) {
+  const response = await fetchFromServer(`/applications/${applicationId}`);
+
+  const application = response.data as TApplication;
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="mb-8 space-y-4">
@@ -152,7 +164,7 @@ export default function ApplicationDetails() {
               <InfoItem
                 icon={CalendarDays}
                 label="Applied Date"
-                value={application.appliedDate.toLocaleDateString()}
+                value={application?.appliedDate}
               />
               <InfoItem
                 icon={FileText}
@@ -165,7 +177,7 @@ export default function ApplicationDetails() {
                 value={application.applicationGroupId}
               />
               <InfoItem
-                icon={Link}
+                icon={LinkIcon}
                 label="Job Portal"
                 value={application.jobPortal}
               />
@@ -277,14 +289,20 @@ export default function ApplicationDetails() {
       </Tabs>
 
       <div className="mt-8 flex flex-col sm:flex-row justify-end space-y-4 sm:space-y-0 sm:space-x-4">
-        <Button variant="outline" className="w-full sm:w-auto">
-          <Edit className="mr-2 h-4 w-4" />
-          Edit Application
-        </Button>
-        <Button className="w-full sm:w-auto">
-          <ExternalLink className="mr-2 h-4 w-4" />
-          View Job Posting
-        </Button>
+        <UpdateApplicationButton application={application}>
+          <Button variant="outline" className="w-full sm:w-auto">
+            <Edit className="mr-2 h-4 w-4" />
+            Edit Application
+          </Button>
+        </UpdateApplicationButton>
+
+        <Link href={application?.jobPostingURL!}>
+          {' '}
+          <Button className="w-full sm:w-auto">
+            <ExternalLink className="mr-2 h-4 w-4" />
+            View Job Posting
+          </Button>
+        </Link>
       </div>
     </div>
   );
