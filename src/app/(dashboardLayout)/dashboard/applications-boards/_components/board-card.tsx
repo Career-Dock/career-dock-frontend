@@ -44,6 +44,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { useFetch } from '@/utils/useFetch';
+import Image from 'next/image';
 
 interface BoardCardProps {
   board: {
@@ -211,9 +212,11 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
       <Card className="group relative overflow-hidden transition-all hover:shadow-md">
         <div className="flex items-start p-4 gap-4">
           <div className="w-24 h-24 flex-shrink-0 rounded-md overflow-hidden">
-            <img
+            <Image
               src={board?.image || '/board.jpg'}
               alt={board?.name}
+              width={100}
+              height={100}
               className="w-full h-full object-cover"
             />
           </div>
@@ -316,9 +319,11 @@ export function BoardCard({ board, viewMode }: BoardCardProps) {
           </DropdownMenu>
         </div>
         <div className="w-full h-[180px] bg-muted overflow-hidden group-hover:opacity-90 transition-opacity rounded-t-lg">
-          <img
+          <Image
             src={board?.image || '/board.jpg'}
             alt={board?.name}
+            width={500}
+            height={500}
             className="w-full h-full object-cover"
           />
         </div>
