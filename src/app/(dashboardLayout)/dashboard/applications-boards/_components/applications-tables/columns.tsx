@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 'use client';
 
 import { ColumnDef } from '@tanstack/react-table';
@@ -12,6 +13,15 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Check, ChevronDown, Loader2 } from 'lucide-react';
+import { useFetch } from '@/utils/useFetch';
+import { useCallback, useState } from 'react';
 
 type JobTypeBadgeProps = {
   jobType: string;
@@ -100,8 +110,71 @@ export const columns: ColumnDef<TApplication>[] = [
     accessorKey: 'status',
     header: 'Status',
     cell: ({ row }) => {
-      const status = row.getValue('status') as string;
-      return <StatusBadge status={status} />;
+      const [currentStatus, setCurrentStatus] = useState(
+        row.getValue('status') as string
+      );
+      const { fetchData, isLoading, error } = useFetch();
+
+      const statuses = [
+        'Applied',
+        'Under_Review',
+        'Interview_Scheduled',
+        'Task_Received',
+        'Task_Ongoing',
+        'Task_Submitted',
+        'Offer_Received',
+        'Offer_Accepted',
+        'Rejected',
+      ];
+
+      const onStatusChange = async (newStatus: string) => {
+        if (newStatus === currentStatus) return;
+
+        try {
+          await fetchData(
+            `applications/update-status/${row.original._id}`,
+            'PATCH',
+            { status: newStatus },
+            'dashboard/applications'
+          );
+
+          setCurrentStatus(newStatus);
+        } catch (err) {
+          console.error('Error updating status:', err);
+        }
+      };
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild disabled={isLoading}>
+            <div className="flex items-center gap-2 cursor-pointer">
+              <StatusBadge status={currentStatus} />
+              {isLoading ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                <ChevronDown className="h-4 w-4" />
+              )}
+            </div>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="start" className="w-[200px]">
+            {statuses.map((statusOption) => (
+              <DropdownMenuItem
+                key={statusOption}
+                onClick={() => onStatusChange(statusOption)}
+                className="flex items-center justify-between"
+                disabled={isLoading}
+              >
+                <div className="flex items-center gap-2">
+                  <StatusBadge status={statusOption} />
+                </div>
+                {currentStatus === statusOption && (
+                  <Check className="h-4 w-4" />
+                )}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
     },
   },
   {
