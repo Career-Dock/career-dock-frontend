@@ -119,7 +119,7 @@ export const columns: ColumnDef<TApplication>[] = [
     cell: ({ row }) => {
       const value = row.getValue('appliedVia') as string;
       return (
-        <span className=" capitalize">{value.replace('_', ' ') || 'N/A'}</span>
+        <span className=" capitalize">{value?.replace('_', ' ') || 'N/A'}</span>
       );
     },
   },
