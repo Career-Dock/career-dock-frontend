@@ -1,7 +1,6 @@
 'use client';
-import { Product } from '@/constants/data';
+
 import { ColumnDef } from '@tanstack/react-table';
-import Image from 'next/image';
 import { CellAction } from './cell-action';
 import { TApplication } from '@/types/application';
 import Link from 'next/link';
@@ -47,7 +46,7 @@ export function StatusBadge({ status }: StatusBadgeProps) {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'Interview_Scheduled':
-        return 'bg-blue-500 hover:bg-blue-600 rounded-sm';
+        return 'bg-fuchsia-500 hover:bg-fuchsia-600 rounded-sm';
       case 'Applied':
         return 'bg-blue-500 hover:bg-blue-600 rounded-sm';
       case 'Rejected':
@@ -165,7 +164,7 @@ export const columns: ColumnDef<TApplication>[] = [
           <Tooltip>
             <TooltipTrigger asChild>
               <Button variant="link" className="p-0">
-                <Link href={link || ''}>Link</Link>
+                <Link href={link || ''}>Job Posting Link</Link>
               </Button>
             </TooltipTrigger>
             <TooltipContent className=" bg-black/80 text-white">

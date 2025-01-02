@@ -20,6 +20,7 @@ import {
 import { useState } from 'react';
 import UpdateApplicationButton from '../update-application-button';
 import { useParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface CellActionProps {
   data: TApplication;
@@ -67,6 +68,15 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <DropdownMenuItem>
+            <Link
+              href={`/dashboard/applications-boards/${boardId}/applications/${data._id}`}
+              className=" flex items-center gap-2"
+            >
+              {' '}
+              <ReceiptTextIcon className="mr-2 h-4 w-4" /> Details
+            </Link>
+          </DropdownMenuItem>
           <UpdateApplicationButton application={data}>
             <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
               <Edit className="mr-2 h-4 w-4" /> Update
@@ -75,17 +85,10 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
           <DropdownMenuItem onClick={() => setOpen(true)}>
             <Trash className="mr-2 h-4 w-4" /> Delete
           </DropdownMenuItem>
-          <DropdownMenuItem
-            onClick={() =>
-              router.push(
-                `/dashboard/applications-boards/${boardId}/applications/${data._id}`
-              )
-            }
-          >
-            <ReceiptTextIcon className="mr-2 h-4 w-4" /> Details
-          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </>
   );
 };
+
+///dashboard/applications-boards/${boardId}/applications/${data._id}`
