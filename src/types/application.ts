@@ -36,3 +36,13 @@ export type TApplication = {
   resumeURL?: string;
   salaryRange?: string;
 };
+
+export type TApplicationGroup = {
+  _id: string;
+  name: string;
+  description?: string;
+  clerkUserId: string;
+  image?: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
