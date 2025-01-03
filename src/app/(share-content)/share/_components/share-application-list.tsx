@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ChevronDown } from 'lucide-react';
+
 import {
   Table,
   TableBody,
@@ -10,12 +10,6 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 
 export default function SharedJobApplicationsTable({
   shareId,
@@ -24,9 +18,14 @@ export default function SharedJobApplicationsTable({
 }) {
   return (
     <div className="rounded-md border p-4">
-      <h2 className=" text-2xl font-semibold mb-12">
-        Job Applications of: Titumir Vai
-      </h2>
+      <div className=" mb-12 flex justify-between items-center">
+        <h2 className=" text-2xl font-semibold">
+          Job Applications of: Titumir Vai
+        </h2>
+        <Link href="/">
+          <Button>Explore Career Dock</Button>
+        </Link>
+      </div>
       <Table>
         <TableHeader>
           <TableRow>

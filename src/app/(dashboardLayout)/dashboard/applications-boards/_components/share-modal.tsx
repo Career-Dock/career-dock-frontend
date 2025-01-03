@@ -10,8 +10,10 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Copy, Check, Link, List } from 'lucide-react';
+import { Copy, Check, List, LinkIcon } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { Label } from '@/components/ui/label';
+import Link from 'next/link';
 
 interface ShareModalProps {
   isOpen: boolean;
@@ -21,6 +23,7 @@ interface ShareModalProps {
 export function ShareModal({ isOpen, setIsOpen }: ShareModalProps) {
   const searchParams = useSearchParams();
   const [shareLink, setShareLink] = useState('');
+  const [shareName, setShareName] = useState('My Applications'); // Update 1
   const [copied, setCopied] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showAllLinks, setShowAllLinks] = useState(false);
@@ -33,6 +36,7 @@ export function ShareModal({ isOpen, setIsOpen }: ShareModalProps) {
   useEffect(() => {
     if (!isOpen) {
       setShareLink('');
+      setShareName('My Share Link'); // Update 2
     }
   }, [isOpen]);
 
@@ -43,6 +47,8 @@ export function ShareModal({ isOpen, setIsOpen }: ShareModalProps) {
   };
 
   const createShareLink = async () => {
+    if (!shareName.trim()) return;
+
     setIsLoading(true);
     try {
       // Simulate API call
@@ -66,10 +72,12 @@ export function ShareModal({ isOpen, setIsOpen }: ShareModalProps) {
       <DialogContent className="sm:max-w-[550px]">
         <DialogHeader className="flex flex-row items-center justify-between mt-6">
           <DialogTitle>Share Applications</DialogTitle>
-          <Button variant="outline" size="sm" onClick={showAllShareLinks}>
-            <List className="mr-2 h-4 w-4" />
-            {showAllLinks ? 'Hide' : 'Show'} All Lists
-          </Button>
+          <Link href="/dashboard/applications-boards/677163cc03edf1c38f858656/applications/share-list">
+            <Button variant="outline" size="sm">
+              <List className="mr-2 h-4 w-4" />
+              All Shared Links
+            </Button>
+          </Link>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           {showAllLinks ? (
@@ -110,7 +118,7 @@ export function ShareModal({ isOpen, setIsOpen }: ShareModalProps) {
                           <Badge
                             key={s}
                             variant="outline"
-                            className=" bg-orange-100 text-orange-800 hover:bg-orange-200"
+                            className="bg-orange-100 text-orange-800 hover:bg-orange-200"
                           >
                             {s}
                           </Badge>
@@ -169,20 +177,32 @@ export function ShareModal({ isOpen, setIsOpen }: ShareModalProps) {
                 </div>
               </div>
               {!shareLink && (
-                <div className="flex gap-2 mt-4">
-                  <Button onClick={createShareLink} disabled={isLoading}>
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="shareName">Share Link Name</Label>
+                    <Input
+                      id="shareName"
+                      placeholder="Enter a name for your share link"
+                      value={shareName}
+                      onChange={(e) => setShareName(e.target.value)}
+                      className="bg-white" // Update 3
+                    />
+                  </div>
+                  <Button
+                    onClick={createShareLink}
+                    disabled={isLoading || !shareName.trim()}
+                  >
                     {isLoading ? (
                       <>Creating link...</>
                     ) : (
                       <>
-                        <Link className="mr-2 h-4 w-4" />
+                        <LinkIcon className="mr-2 h-4 w-4" />
                         Create Share Link
                       </>
                     )}
                   </Button>
                 </div>
               )}
-
               {shareLink && (
                 <div className="flex items-center space-x-2">
                   <Input value={shareLink} readOnly className="flex-1" />
